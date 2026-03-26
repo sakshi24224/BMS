@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="A comprehensive guide to querying, interpreting, and deriving actionable insights from the BMS CHO Cell Productivity Knowledge Graph.">
+
+<title>4&nbsp; Internal Data Exploration – BMS CHO Cell Productivity Knowledge Graph</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/03-public-literature.html" rel="next">
+<link href="../chapters/01-orientation.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-156c76771fd2490d2eb8da209f6ee8fd.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-9d999877f3c5e6af240db9c54b9fdcfe.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-156c76771fd2490d2eb8da209f6ee8fd.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-0bb7583ff22cf4503b2a60e263671166.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-63cf643274b051a6f0748a48b9938e71.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-0bb7583ff22cf4503b2a60e263671166.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">BMS CHO Cell Productivity Knowledge Graph</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools tools-end">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/02-internal-data.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Internal Data Exploration</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/00-getting-started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Getting Started</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-orientation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Orientation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-internal-data.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Internal Data Exploration</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-public-literature.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Public Literature Evidence</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-cross-evidence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cross-Evidence Integration</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-hypothesis-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-target-prioritization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Target Prioritisation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-utilities.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">KG Utilities &amp; Navigation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#sec-internal" id="toc-sec-internal" class="nav-link active" data-scroll-target="#sec-internal"><span class="header-section-number">4.1</span> Overview</a></li>
+  <li><a href="#sec-browsing" id="toc-sec-browsing" class="nav-link" data-scroll-target="#sec-browsing"><span class="header-section-number">4.2</span> A · Data Browsing</a></li>
+  <li><a href="#sec-deg" id="toc-sec-deg" class="nav-link" data-scroll-target="#sec-deg"><span class="header-section-number">4.3</span> B · Differential Expression &amp; Abundance</a>
+  <ul class="collapse">
+  <li><a href="#what-is-degdaa" id="toc-what-is-degdaa" class="nav-link" data-scroll-target="#what-is-degdaa">What is DEG/DAA?</a></li>
+  <li><a href="#querying-degdaa-results" id="toc-querying-degdaa-results" class="nav-link" data-scroll-target="#querying-degdaa-results">Querying DEG/DAA Results</a></li>
+  <li><a href="#how-to-interpret-degdaa-results" id="toc-how-to-interpret-degdaa-results" class="nav-link" data-scroll-target="#how-to-interpret-degdaa-results">How to Interpret DEG/DAA Results</a></li>
+  </ul></li>
+  <li><a href="#sec-wgcna" id="toc-sec-wgcna" class="nav-link" data-scroll-target="#sec-wgcna"><span class="header-section-number">4.4</span> C · Co-expression Networks (WGCNA)</a>
+  <ul class="collapse">
+  <li><a href="#what-is-wgcna" id="toc-what-is-wgcna" class="nav-link" data-scroll-target="#what-is-wgcna">What is WGCNA?</a></li>
+  <li><a href="#querying-wgcna-results" id="toc-querying-wgcna-results" class="nav-link" data-scroll-target="#querying-wgcna-results">Querying WGCNA Results</a></li>
+  <li><a href="#how-to-interpret-wgcna-results" id="toc-how-to-interpret-wgcna-results" class="nav-link" data-scroll-target="#how-to-interpret-wgcna-results">How to Interpret WGCNA Results</a></li>
+  </ul></li>
+  <li><a href="#sec-mofa" id="toc-sec-mofa" class="nav-link" data-scroll-target="#sec-mofa"><span class="header-section-number">4.5</span> D · Multi-Omics Factor Analysis (MOFA)</a>
+  <ul class="collapse">
+  <li><a href="#what-is-mofa" id="toc-what-is-mofa" class="nav-link" data-scroll-target="#what-is-mofa">What is MOFA?</a></li>
+  <li><a href="#querying-mofa-results" id="toc-querying-mofa-results" class="nav-link" data-scroll-target="#querying-mofa-results">Querying MOFA Results</a></li>
+  <li><a href="#how-to-interpret-mofa-results" id="toc-how-to-interpret-mofa-results" class="nav-link" data-scroll-target="#how-to-interpret-mofa-results">How to Interpret MOFA Results</a></li>
+  </ul></li>
+  <li><a href="#sec-pathways" id="toc-sec-pathways" class="nav-link" data-scroll-target="#sec-pathways"><span class="header-section-number">4.6</span> E · Pathway &amp; Functional Enrichment</a>
+  <ul class="collapse">
+  <li><a href="#what-is-pathway-enrichment" id="toc-what-is-pathway-enrichment" class="nav-link" data-scroll-target="#what-is-pathway-enrichment">What is Pathway Enrichment?</a></li>
+  <li><a href="#querying-pathway-enrichment" id="toc-querying-pathway-enrichment" class="nav-link" data-scroll-target="#querying-pathway-enrichment">Querying Pathway Enrichment</a></li>
+  <li><a href="#how-to-interpret-enrichment-results" id="toc-how-to-interpret-enrichment-results" class="nav-link" data-scroll-target="#how-to-interpret-enrichment-results">How to Interpret Enrichment Results</a></li>
+  <li><a href="#kegg-metabolic-network-traversal" id="toc-kegg-metabolic-network-traversal" class="nav-link" data-scroll-target="#kegg-metabolic-network-traversal">KEGG Metabolic Network Traversal</a></li>
+  </ul></li>
+  <li><a href="#sec-tf" id="toc-sec-tf" class="nav-link" data-scroll-target="#sec-tf"><span class="header-section-number">4.7</span> F · Transcription Factor Analysis</a>
+  <ul class="collapse">
+  <li><a href="#what-is-tf-enrichment" id="toc-what-is-tf-enrichment" class="nav-link" data-scroll-target="#what-is-tf-enrichment">What is TF Enrichment?</a></li>
+  <li><a href="#querying-tf-results" id="toc-querying-tf-results" class="nav-link" data-scroll-target="#querying-tf-results">Querying TF Results</a></li>
+  <li><a href="#how-to-interpret-tf-results" id="toc-how-to-interpret-tf-results" class="nav-link" data-scroll-target="#how-to-interpret-tf-results">How to Interpret TF Results</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Internal Data Exploration</span></h1>
+<p class="subtitle lead">Browsing BMS data, differential expression, co-expression networks, multi-omics integration, pathway enrichment, and transcription factor analysis</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="sec-internal" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="sec-internal"><span class="header-section-number">4.1</span> Overview</h2>
+<p>This chapter covers everything you can learn from BMS in-house data. It is organised into six layers, each building on the previous:</p>
+<div class="step-box"><div class="step-number">A</div><div><strong>Data Browsing</strong> — what samples, clones, molecules, and timepoints are available</div></div>
+<div class="step-box"><div class="step-number">B</div><div><strong>Differential Expression &amp; Abundance (DEG/DAA)</strong> — which features change between high and low producers</div></div>
+<div class="step-box"><div class="step-number">C</div><div><strong>Co-expression Networks (WGCNA)</strong> — which genes/proteins/metabolites move together</div></div>
+<div class="step-box"><div class="step-number">D</div><div><strong>Multi-Omics Integration (MOFA)</strong> — latent factors that explain productivity variation across all omics layers simultaneously</div></div>
+<div class="step-box"><div class="step-number">E</div><div><strong>Pathway &amp; Functional Enrichment</strong> — KEGG and GO enrichment stored on the KG</div></div>
+<div class="step-box"><div class="step-number">F</div><div><strong>Transcription Factor Analysis</strong> — master regulators of high-producer gene programs</div></div>
+<hr>
+</section>
+<section id="sec-browsing" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="sec-browsing"><span class="header-section-number">4.2</span> A · Data Browsing</h2>
+<div class="query-box">
+<p>What samples are available for the Nivo molecule in Study 1?</p>
+</div>
+<div class="query-box">
+<p>Which days have both transcriptomics and proteomics measurements in Study 1?</p>
+</div>
+<div class="query-box">
+<p>Show qP, titre, and IVCD values across all Nivo clones in Study 1.</p>
+</div>
+<p>Use the molecule filter to restrict any query to a single drug candidate (<code>Nivo</code> or <code>C144</code>).</p>
+<hr>
+</section>
+<section id="sec-deg" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="sec-deg"><span class="header-section-number">4.3</span> B · Differential Expression &amp; Abundance</h2>
+<section id="what-is-degdaa" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-degdaa">What is DEG/DAA?</h3>
+<p><strong>Differential Expression Analysis (DEG)</strong> identifies genes whose mRNA levels differ significantly between two sample groups — in this KG, typically high vs.&nbsp;low producers. <strong>Differential Abundance Analysis (DAA)</strong> applies the same logic to proteins and metabolites.</p>
+<p>Results are stored as directed edges from each molecular feature to a Cohort node, with properties capturing the magnitude and significance of the difference.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Omics layer</th>
+<th>Method</th>
+<th>Covariate</th>
+<th>Normalisation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Transcriptomics (DEG)</td>
+<td>DESeq2</td>
+<td>Time</td>
+<td>TPM</td>
+</tr>
+<tr class="even">
+<td>Proteomics (DAA)</td>
+<td>T-test</td>
+<td>Time</td>
+<td>Median central log₂</td>
+</tr>
+<tr class="odd">
+<td>Metabolomics (DAA)</td>
+<td>T-test</td>
+<td>Time</td>
+<td>Median central log₂</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="querying-degdaa-results" class="level3">
+<h3 class="anchored" data-anchor-id="querying-degdaa-results">Querying DEG/DAA Results</h3>
+<div class="query-box">
+<p>Which genes are upregulated in cohort Nivo_study1_all_high_vs_Nivo_study1_all_low with adj_pvalue &lt; 0.05 and abs_log2fc &gt; 2?</p>
+</div>
+<div class="query-box">
+<p>Show genes downregulated in high vs.&nbsp;low C144 producers in Study 1, with abs_log2fc &gt; 1.5.</p>
+</div>
+<div class="query-box">
+<p>Which proteins are differentially abundant in high vs.&nbsp;low Nivo producers in Study 1?</p>
+</div>
+<div class="query-box">
+<p>Show differentially abundant metabolites in the pellet fraction for high vs.&nbsp;low C144 producers.</p>
+</div>
+<div class="query-box">
+<p>Which genes are consistently upregulated in at least 7 out of 10 high vs.&nbsp;low producer cohorts in Study 1?</p>
+</div>
+<p><strong>The multi-filter shortlisting funnel (Study 1):</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Filter step</th>
+<th>Genes remaining</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>All DEGs across 232 cohorts</td>
+<td>11,481</td>
+</tr>
+<tr class="even">
+<td>adj_pvalue &lt; 0.05 and abs_log2fc &gt; 2</td>
+<td>5,682</td>
+</tr>
+<tr class="odd">
+<td>Directional consistency — RNA and protein both up or both down</td>
+<td>775</td>
+</tr>
+<tr class="even">
+<td>Upregulated in high producers</td>
+<td>330</td>
+</tr>
+<tr class="odd">
+<td>Concordant RNA–protein regulation and Spearman r &gt; 0.5 with qP</td>
+<td><strong>63</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="how-to-interpret-degdaa-results" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-interpret-degdaa-results">How to Interpret DEG/DAA Results</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Output column</th>
+<th>Source edge property</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>abs_log2fc</code></td>
+<td><code>upregulated.abs_log2fc</code></td>
+<td>Absolute log₂ fold-change (cohort A vs.&nbsp;B). Higher = larger difference.</td>
+</tr>
+<tr class="even">
+<td><code>direction</code></td>
+<td><code>upregulated.direction</code></td>
+<td><code>positive</code> = higher in cohort A (high producers); <code>negative</code> = higher in cohort B</td>
+</tr>
+<tr class="odd">
+<td><code>adj_pvalue</code></td>
+<td><code>upregulated.adj_pvalue</code></td>
+<td>BH-corrected p-value. Use &lt; 0.05 as significance threshold.</td>
+</tr>
+<tr class="even">
+<td><code>pvalue</code></td>
+<td><code>upregulated.pvalue</code></td>
+<td>Nominal p-value. Prefer adj_pvalue for filtering.</td>
+</tr>
+<tr class="odd">
+<td><code>sampling_type</code></td>
+<td>Metabolomics edges only</td>
+<td><code>pellet</code> = intracellular; <code>supernatant</code> = extracellular fraction</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For robust targets, filter for genes with consistent direction in ≥7/10 high-vs-low cohorts AND both RNA and protein showing the same directional change. The 63-gene shortlist above is a reliable starting point.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-wgcna" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="sec-wgcna"><span class="header-section-number">4.4</span> C · Co-expression Networks (WGCNA)</h2>
+<section id="what-is-wgcna" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-wgcna">What is WGCNA?</h3>
+<p><strong>Weighted Gene Co-expression Network Analysis (WGCNA)</strong> groups genes, proteins, or metabolites that vary together across samples into <strong>modules</strong>. Each module is summarised by its <strong>Module Eigengene (ME)</strong> — the first principal component of all members — which is then correlated with bioprocess traits (qP, titre, IVCD) to identify productivity-associated modules.</p>
+<p>The pipeline runs in five steps:</p>
+<div class="step-box"><div class="step-number">1</div><div><strong>Correlate</strong> — pairwise feature-to-feature correlations across 36 samples × 3 omics layers</div></div>
+<div class="step-box"><div class="step-number">2</div><div><strong>Weight</strong> — raise to soft-threshold power β to amplify strong connections and suppress noise (β = 19 genes, 6 protein, 14 metabolites)</div></div>
+<div class="step-box"><div class="step-number">3</div><div><strong>Cluster</strong> — build Topological Overlap Matrix (TOM) → hierarchical clustering → modules (20 gene, 5 protein, 5 metabolite)</div></div>
+<div class="step-box"><div class="step-number">4</div><div><strong>Summarise</strong> — reduce each module to its Module Eigengene (1 value per sample)</div></div>
+<div class="step-box"><div class="step-number">5</div><div><strong>Correlate to traits</strong> — Pearson r of each ME vs. qP, titre, IVCD → significant modules flagged</div></div>
+<blockquote class="blockquote">
+<p><strong>Published precedent:</strong> Melville et al.&nbsp;(2011, <em>Journal of Biotechnology</em>) applied WGCNA to 295 microarrays from 121 CHO cultures and identified six transcriptional modules correlated with qP, growth rate, and viability — directly validating this approach for CHO productivity analysis.</p>
+</blockquote>
+<p>In the KG, modules are stored as <strong>Network nodes</strong> (e.g., <code>network_2_gene</code>, <code>network_1_protein</code>). Module membership is stored on <code>gene_part_of</code>, <code>protein_part_of</code>, and <code>metabolite_part_of</code> edges.</p>
+</section>
+<section id="querying-wgcna-results" class="level3">
+<h3 class="anchored" data-anchor-id="querying-wgcna-results">Querying WGCNA Results</h3>
+<div class="query-box">
+<p>Which gene WGCNA networks (modules) are positively correlated with qP in Study 1?</p>
+</div>
+<div class="query-box">
+<p>List all genes in network_2_gene (WGCNA module M1) with their network_membership (kME) scores, sorted descending.</p>
+</div>
+<div class="query-box">
+<p>What are the top 10 hub genes (is_hub = true) in network_2_gene?</p>
+</div>
+<div class="query-box">
+<p>Show genes in network_2_gene with gs_qp &gt; 0.5, ranked by descending network_membership.</p>
+</div>
+<div class="query-box">
+<p>Which protein WGCNA modules correlate with IVCD in Study 1?</p>
+</div>
+<div class="query-box">
+<p>Show metabolite module members with significant correlation to qP, ranked by gs_qp.</p>
+</div>
+</section>
+<section id="how-to-interpret-wgcna-results" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-interpret-wgcna-results">How to Interpret WGCNA Results</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Output column</th>
+<th>Source edge property</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>network_membership</code></td>
+<td><code>gene_part_of.network_membership</code></td>
+<td>kME — how strongly a gene tracks its module eigengene (0–1; closer to 1 = stronger hub)</td>
+</tr>
+<tr class="even">
+<td><code>gs_qp</code></td>
+<td><code>gene_part_of.gs_qp</code></td>
+<td>Gene significance for qP — Pearson r of gene expression with qP across samples</td>
+</tr>
+<tr class="odd">
+<td><code>gs_ivcd</code></td>
+<td><code>gene_part_of.gs_ivcd</code></td>
+<td>Gene significance for IVCD</td>
+</tr>
+<tr class="even">
+<td><code>gs_titre</code></td>
+<td><code>gene_part_of.gs_titre</code></td>
+<td>Gene significance for product titre</td>
+</tr>
+<tr class="odd">
+<td><code>gs_qp_pval</code></td>
+<td><code>gene_part_of.gs_qp_pval</code></td>
+<td>P-value for gs_qp — use &lt; 0.05 for significance</td>
+</tr>
+<tr class="even">
+<td><code>sig_qp</code> / <code>sig_ivcd</code> / <code>sig_titre</code></td>
+<td>Boolean flags</td>
+<td><code>true</code> = gene–trait association is statistically significant</td>
+</tr>
+<tr class="odd">
+<td><code>is_hub</code></td>
+<td><code>gene_part_of.is_hub</code></td>
+<td><code>true</code> = high intramodular connectivity; hub gene</td>
+</tr>
+<tr class="even">
+<td><code>pearson_correlation</code></td>
+<td><code>gene_network_correlated_with_phenotype</code></td>
+<td>Module eigengene vs.&nbsp;phenotype Pearson r</td>
+</tr>
+<tr class="odd">
+<td><code>fdr</code></td>
+<td>Same edge</td>
+<td>BH-corrected FDR for module–phenotype correlation</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Key modules identified in Study 1:</strong></p>
+<ul>
+<li><code>network_2_gene</code> (M1 Pro-productivity) — ER processing / UPR enriched. ME positively correlated with qP.</li>
+<li><code>network_18_gene</code> (M18 Anti-productivity) — Cell cycle / DNA replication enriched. ME negatively correlated with qP.</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-mofa" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="sec-mofa"><span class="header-section-number">4.5</span> D · Multi-Omics Factor Analysis (MOFA)</h2>
+<section id="what-is-mofa" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-mofa">What is MOFA?</h3>
+<p><strong>Multi-Omics Factor Analysis (MOFA)</strong> is an unsupervised dimensionality-reduction method that integrates transcriptomics, proteomics, and metabolomics simultaneously to identify <strong>latent factors</strong> — hidden biological programs that explain variation across samples.</p>
+<p>Each factor is a weighted linear combination of features across all three omics layers. Features with large weights drive that factor; the factor score for each sample reflects how strongly the sample expresses that biological program.</p>
+<div class="step-box"><div class="step-number">1</div><div><strong>Input preparation</strong> — top 5,000 variable features (transcriptomics &amp; proteomics), all 596 metabolite features</div></div>
+<div class="step-box"><div class="step-number">2</div><div><strong>MOFA decomposition</strong> — joint matrix factorisation across 3 omics views; K = 10 latent factors</div></div>
+<div class="step-box"><div class="step-number">3</div><div><strong>Factor–trait correlation</strong> — Spearman's ρ of each factor score vs. qP, titre, IVCD across 36 samples</div></div>
+<div class="step-box"><div class="step-number">4</div><div><strong>Feature weight interpretation</strong> — top 80th percentile features per factor per layer extracted for pathway enrichment</div></div>
+<p><strong>Significant factors and their biological meaning:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Factor</th>
+<th>Correlation pattern</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Factor 1</strong></td>
+<td>qP +0.848 · IVCD +0.860 · Titre +0.904</td>
+<td>Full-spectrum productivity signal — the most actionable factor</td>
+</tr>
+<tr class="even">
+<td>Factor 2</td>
+<td>qP positive · IVCD negative</td>
+<td>High efficiency per cell; not driven by biomass accumulation</td>
+</tr>
+<tr class="odd">
+<td>Factor 3</td>
+<td>Proteomics-only</td>
+<td>Post-translational regulatory axis decoupled from transcription</td>
+</tr>
+<tr class="even">
+<td>Factor 4</td>
+<td>Transcriptomics-only</td>
+<td>Transcriptional program not yet reflected in protein or metabolite levels</td>
+</tr>
+<tr class="odd">
+<td>Factor 5</td>
+<td>Titre and qP strongly negative</td>
+<td>Pure metabolic suppressor acting on secretory machinery</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="querying-mofa-results" class="level3">
+<h3 class="anchored" data-anchor-id="querying-mofa-results">Querying MOFA Results</h3>
+<div class="query-box">
+<p>Which genes have the highest positive MOFA Factor 1 weight in Study 1?</p>
+</div>
+<div class="query-box">
+<p>Show proteins with MOFA Factor 1 weight above 0.3.</p>
+</div>
+<div class="query-box">
+<p>Which metabolites contribute most to Factor 5? What pathways are enriched in those metabolites?</p>
+</div>
+<div class="query-box">
+<p>Show per-sample MOFA Factor 1 scores for all Study 1 Nivo samples and overlay with qP values.</p>
+</div>
+<div class="query-box">
+<p>Show genes that are consistently upregulated in high producers (≥7/10 cohorts), members of a pro-productivity WGCNA network, AND have positive MOFA Factor 1 weight. This is the triple-overlap pro-productivity shortlist.</p>
+</div>
+</section>
+<section id="how-to-interpret-mofa-results" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-interpret-mofa-results">How to Interpret MOFA Results</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Output column</th>
+<th>Source edge property</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>mofa_weight</code></td>
+<td><code>gene_contributes_to_factor.mofa_weight</code></td>
+<td>MOFA loading weight. Positive = co-varies positively with factor; negative = inversely. Typical range: −1 to +1.</td>
+</tr>
+<tr class="even">
+<td><code>entity_type</code></td>
+<td>Same edge</td>
+<td><code>gene</code>, <code>protein</code>, or <code>metabolite</code> — which omics layer this feature belongs to</td>
+</tr>
+<tr class="odd">
+<td><code>correlation</code></td>
+<td><code>factor_correlated_with_phenotype.correlation</code></td>
+<td>Spearman ρ between factor scores and phenotype values across samples</td>
+</tr>
+<tr class="even">
+<td><code>direction</code></td>
+<td>Same edge</td>
+<td><code>positive</code> / <code>negative</code> — whether high factor scores associate with high or low phenotype</td>
+</tr>
+<tr class="odd">
+<td><code>mofa_score</code></td>
+<td><code>has_mofa_score.mofa_score</code></td>
+<td>Per-sample factor loading score (typically −5 to +5)</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Factor 1 is the most actionable.</strong> Genes with high positive Factor 1 weights are pro-productivity candidates for overexpression. Genes with high negative weights are anti-productivity candidates for knockout.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-pathways" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="sec-pathways"><span class="header-section-number">4.6</span> E · Pathway &amp; Functional Enrichment</h2>
+<section id="what-is-pathway-enrichment" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-pathway-enrichment">What is Pathway Enrichment?</h3>
+<p>Pathway enrichment analysis tests whether a set of genes or metabolites contains more members of a given biological pathway than expected by chance. Results are <strong>pre-computed and stored in the KG</strong> as edges from pathway nodes to cohort, network, or factor nodes — you query the results, not run the analysis.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Input</th>
+<th>What it detects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>GSEA</strong> (Gene Set Enrichment Analysis)</td>
+<td>Ranked gene list (by log2FC or MOFA weight)</td>
+<td>Coordinated shifts across the full ranked list</td>
+</tr>
+<tr class="even">
+<td><strong>ORA</strong> (Over-Representation Analysis)</td>
+<td>Binary DEG or module member list</td>
+<td>Pathways with more hits than expected by chance</td>
+</tr>
+</tbody>
+</table>
+<p>Both are applied to DEG cohorts, WGCNA modules, and MOFA factors. Databases: <strong>KEGG Pathways</strong> and <strong>Gene Ontology</strong> (BP, MF, CC).</p>
+</section>
+<section id="querying-pathway-enrichment" class="level3">
+<h3 class="anchored" data-anchor-id="querying-pathway-enrichment">Querying Pathway Enrichment</h3>
+<p><strong>On DEG cohorts:</strong></p>
+<div class="query-box">
+<p>Which KEGG pathways are enriched (GSEA) in cohort Nivo_study1_all_high_vs_Nivo_study1_all_low?</p>
+</div>
+<div class="query-box">
+<p>Show GO Biological Process terms enriched in downregulated genes of C144 high vs.&nbsp;low producers.</p>
+</div>
+<p><strong>On WGCNA modules:</strong></p>
+<div class="query-box">
+<p>What KEGG pathways are enriched in gene network network_2_gene?</p>
+</div>
+<div class="query-box">
+<p>Show GO terms enriched in the anti-productivity gene network network_18_gene.</p>
+</div>
+<p><strong>On MOFA factors:</strong></p>
+<div class="query-box">
+<p>Which pathways are enriched in the top-weighted genes for MOFA Factor 1?</p>
+</div>
+<div class="query-box">
+<p>Show KEGG pathway enrichment for MOFA Factor 5, separating positive and negative weight metabolites.</p>
+</div>
+<p><strong>Cross-molecule comparison:</strong></p>
+<div class="query-box">
+<p>Compare enriched KEGG pathways between Nivo and C144 high vs.&nbsp;low producer cohorts. Which are shared and which are molecule-specific?</p>
+</div>
+</section>
+<section id="how-to-interpret-enrichment-results" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-interpret-enrichment-results">How to Interpret Enrichment Results</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Output column</th>
+<th>Source edge property</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>enrichment_score</code></td>
+<td><code>kegg_pathway_enriched_in.enrichment_score</code></td>
+<td>NES for GSEA; fold-enrichment for ORA. Positive = enriched in upregulated / positive-weight genes.</td>
+</tr>
+<tr class="even">
+<td><code>padj</code></td>
+<td>Same edge</td>
+<td>BH-corrected p-value. Use &lt; 0.05.</td>
+</tr>
+<tr class="odd">
+<td><code>overlap</code></td>
+<td>Same edge</td>
+<td>Fraction of pathway genes in the input set. Higher = more pathway coverage.</td>
+</tr>
+<tr class="even">
+<td><code>analysis_type</code></td>
+<td>Same edge</td>
+<td><code>GSEA</code>, <code>ORA_upregulated</code>, <code>ORA_downregulated</code>, <code>ORA_Negative</code></td>
+</tr>
+<tr class="odd">
+<td><code>lead_genes</code></td>
+<td>Same edge</td>
+<td>Gene symbols driving the enrichment signal (GSEA leading edge or ORA hits)</td>
+</tr>
+<tr class="even">
+<td><code>sampling_type</code></td>
+<td>Metabolomics edges only</td>
+<td><code>pellet</code> (intracellular) or <code>supernatant</code> (extracellular)</td>
+</tr>
+<tr class="odd">
+<td><code>source_database</code></td>
+<td><code>go_term_enriched_in</code></td>
+<td><code>GO_BP</code>, <code>GO_MF</code>, or <code>GO_CC</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key biological themes across all analyses:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Direction</th>
+<th>Pathway</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pro-productivity</td>
+<td>Protein processing in ER</td>
+<td>MOFA F1 GSEA (NES +3.3 ★★★)</td>
+</tr>
+<tr class="even">
+<td>Pro-productivity</td>
+<td>Cell adhesion molecules</td>
+<td>MOFA F1 GSEA (NES +3.1 ★★★)</td>
+</tr>
+<tr class="odd">
+<td>Pro-productivity</td>
+<td>Lysosome</td>
+<td>MOFA F1 GSEA (NES +3.0 ★★★)</td>
+</tr>
+<tr class="even">
+<td>Anti-productivity</td>
+<td>Cell cycle</td>
+<td>MOFA F1 GSEA (NES −3.2 ★★★)</td>
+</tr>
+<tr class="odd">
+<td>Anti-productivity</td>
+<td>DNA replication</td>
+<td>MOFA F1 GSEA (NES −3.0 ★★★)</td>
+</tr>
+<tr class="even">
+<td>Anti-productivity</td>
+<td>Homologous recombination</td>
+<td>MOFA F1 GSEA (NES −2.9 ★★★)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="kegg-metabolic-network-traversal" class="level3">
+<h3 class="anchored" data-anchor-id="kegg-metabolic-network-traversal">KEGG Metabolic Network Traversal</h3>
+<p>The KG also stores the full KEGG metabolic network, enabling mechanistic gene-to-reaction queries:</p>
+<div class="query-box">
+<p>Which KEGG pathway does gene LDHA belong to?</p>
+</div>
+<div class="query-box">
+<p>Find all genes in the glycolysis KEGG pathway that are differentially expressed in high vs.&nbsp;low Nivo producers.</p>
+</div>
+<div class="query-box">
+<p>Trace LDHA to its enzymatic activity and the metabolic reactions it catalyses.</p>
+</div>
+<hr>
+</section>
+</section>
+<section id="sec-tf" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="sec-tf"><span class="header-section-number">4.7</span> F · Transcription Factor Analysis</h2>
+<section id="what-is-tf-enrichment" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-tf-enrichment">What is TF Enrichment?</h3>
+<p>Transcription factor (TF) enrichment identifies upstream regulators whose target genes are over-represented in a DEG set or WGCNA module. It answers: <em>which TFs are driving the gene expression changes we observe in high producers?</em></p>
+<p>The analysis uses <strong>gseapy (enrich)</strong> against the <strong>ChEA 2022</strong> database of curated TF–target relationships (from ChIP-seq experiments). Results are stored as edges from TF Gene nodes to Cohort or Network nodes.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Edge type</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>tf_regulates_cohort_degs</code></td>
+<td>TF whose targets are enriched in a cohort’s DEG set</td>
+</tr>
+<tr class="even">
+<td><code>tf_regulates_network_genes</code></td>
+<td>TF whose targets are enriched in a WGCNA module’s gene set</td>
+</tr>
+</tbody>
+</table>
+<p>Available for: <strong>Study 1 cohorts</strong> and <strong>WGCNA gene modules</strong>.</p>
+</section>
+<section id="querying-tf-results" class="level3">
+<h3 class="anchored" data-anchor-id="querying-tf-results">Querying TF Results</h3>
+<div class="query-box">
+<p>Which transcription factors regulate genes upregulated in cohort Nivo_study1_all_high_vs_Nivo_study1_all_low?</p>
+</div>
+<div class="query-box">
+<p>Show TFs with padj &lt; 0.01 whose targets are enriched among upregulated DEGs in C144 high producers.</p>
+</div>
+<div class="query-box">
+<p>Which TFs regulate genes in pro-productivity WGCNA network network_2_gene?</p>
+</div>
+<div class="query-box">
+<p>What TFs control the anti-productivity gene network network_18_gene?</p>
+</div>
+<div class="query-box">
+<p>Trace gene HSPA5 upstream: what transcription factors regulate it in high-producer cohorts?</p>
+</div>
+<div class="query-box">
+<p>Which TFs have the broadest target gene scope across all pro-productivity cohorts in Study 1? Identify master regulators.</p>
+</div>
+</section>
+<section id="how-to-interpret-tf-results" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-interpret-tf-results">How to Interpret TF Results</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Output column</th>
+<th>Source edge property</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>tf_symbol</code></td>
+<td><code>tf_regulates_cohort_degs.tf_symbol</code></td>
+<td>Standardised gene symbol of the TF (e.g., <code>E2F4</code>, <code>NFE2L2</code>)</td>
+</tr>
+<tr class="even">
+<td><code>direction</code></td>
+<td>Same edge</td>
+<td><code>UP</code> = TF targets enriched in upregulated DEGs; <code>DOWN</code> = in downregulated DEGs</td>
+</tr>
+<tr class="odd">
+<td><code>padj</code></td>
+<td>Same edge</td>
+<td>BH-corrected p-value for TF enrichment significance</td>
+</tr>
+<tr class="even">
+<td><code>overlap</code></td>
+<td>Same edge</td>
+<td>Fraction of TF targets in the DEG set</td>
+</tr>
+<tr class="odd">
+<td><code>target_genes</code></td>
+<td>Same edge</td>
+<td>Semicolon-delimited list of TF target gene symbols in the overlap</td>
+</tr>
+<tr class="even">
+<td><code>tf_term_original</code></td>
+<td>Same edge</td>
+<td>Full ChEA term (e.g., <code>E2F4 20460467 ChIP-Seq MCF7 Human</code>) — shows source organism and assay</td>
+</tr>
+<tr class="odd">
+<td><code>tf_database</code></td>
+<td>Same edge</td>
+<td>Always <code>ChEA_2022</code> in this KG</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key master regulators identified in Study 1:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>TF</th>
+<th>Module association</th>
+<th>padj</th>
+<th>Biological role</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>E2F4</strong></td>
+<td>Anti-productivity (network_18_gene)</td>
+<td>3.7×10⁻¹²²</td>
+<td>Cell cycle / DNA replication master regulator</td>
+</tr>
+<tr class="even">
+<td>FOXM1</td>
+<td>Anti-productivity</td>
+<td>Significant</td>
+<td>Mitotic transcription factor</td>
+</tr>
+<tr class="odd">
+<td>E2F1</td>
+<td>Anti-productivity</td>
+<td>Significant</td>
+<td>Cell cycle entry</td>
+</tr>
+<tr class="even">
+<td>MYC</td>
+<td>Anti-productivity</td>
+<td>Significant</td>
+<td>Broad proliferation driver</td>
+</tr>
+<tr class="odd">
+<td>NFE2L2 (NRF2)</td>
+<td>Pro-productivity (network_2_gene)</td>
+<td>Significant</td>
+<td>Oxidative stress / UPR response</td>
+</tr>
+<tr class="even">
+<td>FOXO1</td>
+<td>Pro-productivity</td>
+<td>Significant</td>
+<td>Metabolism and stress resistance</td>
+</tr>
+<tr class="odd">
+<td>PPARA</td>
+<td>Pro-productivity</td>
+<td>Significant</td>
+<td>Lipid metabolism and ER function</td>
+</tr>
+<tr class="even">
+<td>SMARCA4</td>
+<td>Pro-productivity</td>
+<td>Significant</td>
+<td>Chromatin remodelling</td>
+</tr>
+</tbody>
+</table>
+<div class="query-box">
+<p>Is NFE2L2 itself differentially expressed in Nivo high vs.&nbsp;low producers in Study 1?</p>
+</div>
+<div class="query-box">
+<p>Does E2F4 have a significant MOFA Factor 1 weight?</p>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/01-orientation.html" class="pagination-link" aria-label="Orientation">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Orientation</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/03-public-literature.html" class="pagination-link" aria-label="Public Literature Evidence">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Public Literature Evidence</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>BMS CHO Cell Productivity Knowledge Graph — User Manual</p>
+</div>   
+    <div class="nav-footer-center">
+<p>KG Version 3 &nbsp;·&nbsp; Elucidata × BMS</p>
+</div>
+    <div class="nav-footer-right">
+<p>Confidential</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
