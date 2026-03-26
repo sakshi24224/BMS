@@ -1,0 +1,32 @@
+{
+  "index.qmd": {
+    "index.html": "9af10477"
+  },
+  "chapters/00-getting-started.qmd": {
+    "00-getting-started.html": "eaaf3254"
+  },
+  "chapters/01-orientation.qmd": {
+    "01-orientation.html": "e56bec91"
+  },
+  "chapters/02-internal-data.qmd": {
+    "02-internal-data.html": "adc5ca88"
+  },
+  "chapters/03-public-literature.qmd": {
+    "03-public-literature.html": "9605dfed"
+  },
+  "chapters/04-cross-evidence.qmd": {
+    "04-cross-evidence.html": "8ee401d0"
+  },
+  "chapters/05-hypothesis-testing.qmd": {
+    "05-hypothesis-testing.html": "ff704ae3"
+  },
+  "chapters/06-target-prioritization.qmd": {
+    "06-target-prioritization.html": "67947d32"
+  },
+  "chapters/07-utilities.qmd": {
+    "07-utilities.html": "44d9e06a"
+  },
+  "chapters/glossary.qmd": {
+    "glossary.html": "005ceae5"
+  }
+}

@@ -1,0 +1,151 @@
+---
+title: "Public Literature Evidence"
+subtitle: "What published studies say about genes, proteins, metabolites, and CHO productivity"
+---
+
+## Overview {#sec-literature}
+
+The KG integrates cause-effect relationships curated from **~290 publications** on genetic perturbation in the context of CHO cell productivity. This chapter explains how to query that evidence layer.
+
+---
+
+## How Literature Evidence is Structured
+
+Publications were scouted from ~45,000 CHO-related papers through a two-stage filter:
+
+**Filter 1 — category classification:**
+
+- **(A)** Gene/protein/metabolite target manipulation and cell engineering studies — *included*
+- **(B)** Bioprocess optimisation
+- **(C)** Other studies
+
+**Filter 2 — inclusion/exclusion:**
+
+- Include: productivity insights through target manipulation or omics-driven cell-line engineering
+- Exclude: not directly relevant to target manipulation impacting productivity
+
+Result: **~290 publications** ingested, describing overexpression (OE), knockdown (KD), and knockout (KO) interventions and their effects on productivity phenotypes.
+
+Each extracted relationship is stored as a **directed edge** (`positive` or `negative`) from a Gene/Protein/Metabolite node to a Positive or Negative Phenotype node, carrying the following properties:
+
+| Property | Description |
+|---|---|
+| `cause` | Free-text description of the causal experimental manipulation (e.g., "BiP co-expression") |
+| `effect_entity` | Free-text description of the affected biological measurement (e.g., "volumetric titer") |
+| `causal_weight` | Numeric confidence weight of the causal claim (0 to 1; higher = stronger evidence) |
+| `exact_sentence` | Verbatim supporting sentence(s) from the source publication |
+| `quantitative_value` | Quantitative result reported in the literature (e.g., "20% increase") |
+| `gene_source_organism` | Scientific name of the source organism (e.g., `Cricetulus griseus`, `Homo sapiens`) |
+| `study_id` | PMID or study identifier of the source publication |
+| `source` | `public` for all literature-derived edges |
+| `pvalue` | P-value for the reported association (where available) |
+
+::: {.callout-note}
+A gene can be **positively associated** with a positive phenotype (higher expression leads to better outcome) or **negatively associated** (lower expression or knockout leads to better outcome). Both types are equally important and are included in results unless you explicitly filter by direction.
+:::
+
+---
+
+## Key Effect Entities
+
+The KG tracks effects across four biological dimensions:
+
+**Productivity:** specific_productivity_qp · product_titer · volumetric_productivity · secretion_rate · product_yield · production_stability
+
+**Growth:** viable_cell_density_vcd · cell_viability · integral_viable_cell_density_ivcd · specific_growth_rate · apoptosis_rate · cell_cycle_phase_distribution · cloning_efficiency
+
+**Metabolic:** lactate_production · lactate_consumption · ammonia_production · glucose_consumption · glutamine_metabolism · redox_balance · metabolic_flux · lipid_metabolism_rate
+
+**Quality:** glycosylation_profile · fucosylation_level · sialylation_level · product_purity · protein_fragmentation · aggregation_level · host_cell_protein_content · product_bioactivity
+
+---
+
+## Querying Literature Evidence
+
+### Finding Genes Linked to Productivity
+
+::: {.query-box}
+Which genes are linked to increased specific productivity (qP) in published CHO studies?
+:::
+
+::: {.query-box}
+Show all genes with published evidence for improving product titer in CHO cells, including the cause and exact_sentence.
+:::
+
+### Looking Up a Specific Gene
+
+::: {.query-box}
+What does the literature say about HSPA5 and CHO productivity? Include manipulation type, effect, causal_weight, and PMID.
+:::
+
+### Filtering by Phenotype and Direction
+
+::: {.query-box}
+Which genes, when overexpressed, show a positive association with product titer in CHO?
+:::
+
+::: {.query-box}
+Show genes whose knockout reduces protein fragmentation. Include causal_weight and exact_sentence.
+:::
+
+### Filtering by Source Organism
+
+::: {.query-box}
+Show only CHO-specific (Cricetulus griseus) literature evidence for HSPA5.
+:::
+
+::: {.query-box}
+Are there human or mouse studies for FOXO1 that might be relevant to CHO productivity? Show gene_source_organism for each result.
+:::
+
+### Retrieving Supporting Sentences
+
+::: {.query-box}
+Show the exact_sentence values from publications linking HSPA5 overexpression to increased titre.
+:::
+
+### Genes with Experimental Manipulation
+
+::: {.query-box}
+Which genes have been experimentally overexpressed in CHO cells with a positive effect on qP? Show PMID and causal_weight, sorted by causal_weight descending.
+:::
+
+---
+
+## Worked Example: HSPA5 (GRP78/BiP) {#sec-hspa5-example}
+
+<span class="evidence-badge badge-lit">Literature</span>
+
+HSPA5 encodes the ER chaperone GRP78/BiP, a master regulator of the unfolded protein response. The KG contains 7 published associations linking HSPA5 to positive productivity phenotypes across 3 independent CHO studies:
+
+| Phenotype | Cause | Effect entity | Study (PMID) |
+|---|---|---|---|
+| Increased specific productivity (qP) | BiP co-expression | Specific production rate (qP) | 24081924 |
+| Increased product titer | BiP co-expression | Volumetric titer | 24081924 |
+| Increased product titer | Co-expression of BiP and CypB | Sp35Fc titer (+20%) | 26126657 |
+| Increased volumetric productivity | GRP78 overexpression | M-CSF productivity | 1373378 |
+| Decreased apoptosis rate | GRP78 overexpression during H₂O₂ exposure | Cleaved caspase-3 levels | 32624757 |
+| Increased product titer | GRP78 overexpression | TfR-Ab concentration | 32624757 |
+| Increased cell viability | GRP78 overexpression (serum-free SFM4CHO) | Cell viability (33.87% vs 3.23% at Day 11) | 32624757 |
+
+**Selected supporting evidence sentences:**
+
+> PMID 24081924: "BiP significantly improved volumetric titer of DTE MAb E, mediated specifically via an increase in qP."
+
+> PMID 26126657: "A combination of two genes, BiP and CypB, increased Sp35Fc titer by 20% compared to that obtained with either BiP or CypB alone."
+
+> PMID 32624757: "ELISA assay showed that the concentrations of TfR-Ab in the supernatant of CHO-GRP78 cells were higher than those in CHO cells at any time points." Cell viability at Day 11: CHO-GRP78 cells 33.87% vs CHO cells 3.23%.
+
+**Mechanism:** UPR activation expands ER folding capacity, improves secretory efficiency, and reduces apoptosis under stress conditions — all contributing to higher titre and qP.
+
+---
+
+## Finding Genes Mentioned in a Specific Publication
+
+::: {.query-box}
+Which genes are mentioned in study with PMID 32624757?
+:::
+
+::: {.query-box}
+Show all cause-effect relationships extracted from PMID 38898154.
+:::

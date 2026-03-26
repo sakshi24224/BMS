@@ -1,0 +1,176 @@
+---
+title: "KG Utilities & Navigation"
+subtitle: "Searching, cross-referencing identifiers, filtering, exporting results, and generating plots"
+---
+
+## Overview {#sec-utilities}
+
+This chapter covers the practical mechanics of navigating the KG: searching by identifier, cross-referencing databases, filtering results, exporting data, and generating visualisations.
+
+---
+
+## Searching by Identifier
+
+| Entity | Supported identifiers |
+|---|---|
+| Gene | Gene symbol (e.g., `HSPA5`), NCBI Entrez Gene ID (e.g., `100752894`) |
+| Protein | UniProt accession (e.g., `P11021`), RefSeq accession (e.g., `XP_027251020.1`) |
+| Metabolite | ChEBI ID (e.g., `CHEBI:16651`), metabolite name, KEGG Compound C-number, HMDB ID |
+| Pathway | KEGG pathway ID (e.g., `cge04141`), pathway name |
+| GO Term | GO term ID (e.g., `GO:0006457`), GO term name |
+
+::: {.query-box}
+Find gene HSPA5. Show its NCBI Gene ID, UniProt accession of its encoded protein, and all associated KEGG pathways.
+:::
+
+::: {.query-box}
+Search for metabolite lactate using its ChEBI ID CHEBI:16651. Show all WGCNA networks it belongs to and its correlation with qP.
+:::
+
+---
+
+## Cross-Referencing Identifiers
+
+::: {.query-box}
+What is the UniProt accession for the protein encoded by HSPA5?
+:::
+
+::: {.query-box}
+What CHO gene symbol corresponds to NCBI Gene ID 100752894?
+:::
+
+::: {.query-box}
+What is the KEGG ortholog (K-number) for gene LDHA in CHO cells?
+:::
+
+---
+
+## Finding Orthologs
+
+CHO genes are mapped to human, mouse, and rat orthologs via the `human_id`, `mouse_id`, and `rat_id` fields on Gene nodes. KEGG Ortholog (`assigned_to`) edges provide functional ortholog groupings.
+
+::: {.query-box}
+Find the human ortholog of CHO gene LOC100760815. What is its NCBI Gene ID?
+:::
+
+::: {.query-box}
+Which human genes are orthologs of the top 10 hub genes in WGCNA network_2_gene?
+:::
+
+---
+
+## Filtering Results
+
+### By Study Source
+
+::: {.query-box}
+Show DEG results for HSPA5 from BMS internal studies only (source = 'bms').
+:::
+
+::: {.query-box}
+Show only public omics datasets with DEG results for KCTD14.
+:::
+
+### By Molecule
+
+::: {.query-box}
+Filter WGCNA network enrichment results to Nivo samples only (sample_source = 'Nivo_study1').
+:::
+
+::: {.query-box}
+Show MOFA Factor 1 weights for genes, using only C144 Study 1 samples (sample_source = 'C144_study1').
+:::
+
+### Recommended Statistical Thresholds
+
+| Threshold | Recommended value | Edge property |
+|---|---|---|
+| DEG adjusted p-value | < 0.05 | `adj_pvalue` |
+| DEG absolute log₂FC | > 2 | `abs_log2fc` |
+| Spearman correlation | \|r\| > 0.5 | `correlation_factor` |
+| MOFA weight (top features) | > 80th percentile | `mofa_weight` |
+| WGCNA module membership | kME > 0.5 | `network_membership` |
+| TF enrichment | padj < 0.05 | `padj` |
+| Pathway enrichment | padj < 0.05 | `padj` |
+
+---
+
+## Plotting Routines
+
+The KG can generate a variety of visualisations directly from query results. Ask Co-Scientist to produce plots alongside tabular output.
+
+::: {.query-box}
+What kinds of plots can you generate for KG query results?
+:::
+
+Plots are generated directly by the Co-Scientist from KG data. The following types are available, each backed by specific KG edge properties:
+
+| Plot type | KG data source | When to use |
+|---|---|---|
+| **KG subgraph / network view** | Any edge type (e.g., `upregulated`, `positive`, `gene_part_of`, metabolic chains `gene→kegg_ortholog→kegg_enzyme→kegg_reaction→metabolite`) | Visualise relationships around a specific gene, protein, or metabolite; trace metabolic paths |
+| **Volcano / scatter plot** | `upregulated` / `downregulated` edges: x = `abs_log2fc`, y = -log10(`pvalue`), colour by edge type | DEG/DAA — identify significant differentially expressed features per cohort |
+| **Expression heatmap** | `gene_expressed_in.abs_log2_tpm`, `protein_abundant_in.abs_log2_abundance`, `metabolite_abundant_in.abs_log2_abundance`; faceted by `harvest_day`, `clone_id`, `molecule` | Compare expression profiles across samples, clones, or molecules |
+| **Enrichment bar / lollipop** | `go_term_enriched_in` and `kegg_pathway_enriched_in`: y = -log10(`padj`) | Top enriched GO terms or KEGG pathways per cohort, network, or factor |
+| **Enrichment dot / bubble plot** | Same enrichment edges: y = term, x = `enrichment_score`, size = `overlap`, colour = -log10(`padj`) | Compare enrichment across multiple terms simultaneously |
+| **WGCNA module–phenotype bars** | `gene/protein/metabolite_network_correlated_with_phenotype`: `pearson_correlation` with `fdr`, coloured by `direction` | Which modules are pro- or anti-productivity |
+| **MOFA factor correlation bars** | `factor_correlated_with_phenotype.correlation`, coloured by `direction` | Which MOFA factors correlate with qP, titre, IVCD |
+| **MOFA loadings plot** | `mofa_weight` from `gene/protein/metabolite_contributes_to_factor` | Top features driving each factor, per omics layer |
+| **Pathway treemap / sunburst** | `pathway.top_level_mapping_broad` and `top_level_mapping_subcategory` | Hierarchical breakdown of enriched pathways by KEGG BRITE category |
+| **Bioprocess time-series** | `measured_in.bms_bioprocess_parameter_value` over `Sample.harvest_day`, faceted by `molecule` or `qp_group` | qP, titre, lactate, glucose trends across culture days |
+| **Cohort summary stacked bar** | Count of `upregulated`/`downregulated` entities per cohort; or top enriched pathway by `padj` | Overview of DE landscape across multiple cohorts |
+
+::: {.query-box}
+Show a scatter plot of HSPA5 expression vs. qP across all Study 1 samples.
+:::
+
+::: {.query-box}
+Generate a bar chart of GSEA enrichment scores for the top 10 enriched KEGG pathways in cohort Nivo_study1_all_high_vs_Nivo_study1_all_low.
+:::
+
+::: {.query-box}
+Show a heatmap of the top 20 upregulated genes in high vs. low Nivo producers across all Study 1 samples.
+:::
+
+::: {.callout-note}
+Plot availability depends on the Python backend connected to the KG session. Network plots, heatmaps, and scatter plots are consistently available. For specific plot types, ask Co-Scientist first — it will confirm what is currently supported.
+:::
+
+---
+
+## Exporting Query Results
+
+Results can be exported from the session toolbar after any query returns a table or plot.
+
+### Exporting Tables
+
+::: {.query-box}
+Export all WGCNA network_2_gene members with network_membership, gs_qp, gs_titre, and is_hub as a CSV.
+:::
+
+::: {.query-box}
+Export the top 50 genes by positive MOFA Factor 1 weight across transcriptomics, proteomics, and metabolomics layers.
+:::
+
+### Exporting Plots
+
+After a plot is generated in the chat:
+
+```{=html}
+<div class="step-box"><div class="step-number">1</div><div>Right-click the plot image in the chat and select <strong>Save image as…</strong>, or</div></div>
+<div class="step-box"><div class="step-number">2</div><div>Use the <strong>export icon</strong> in the session toolbar to download the full session including all plots as a PDF.</div></div>
+```
+
+---
+
+## Tips for Effective Queries
+
+- **Be specific about entity type** — say "gene", "protein", or "metabolite" explicitly
+- **Name the cohort** — include molecule, clone, and study when relevant
+- **State directionality** — "upregulated", "positive MOFA weight", "negatively correlated with qP"
+- **Include exact thresholds** — numbers rather than "strong" or "significant"
+- **Build progressively** — start broad, then add constraints to narrow results
+- **Reference modules and factors by name** — `network_2_gene`, `Factor1`, not "the pro-productivity module"
+
+::: {.callout-tip}
+If results feel off-topic, start a **New Session** (pencil icon, top right) to clear accumulated context, then rephrase your query with more specificity.
+:::

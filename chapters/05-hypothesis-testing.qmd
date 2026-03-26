@@ -1,0 +1,154 @@
+---
+title: "Hypothesis Testing"
+subtitle: "Interrogating the KG when you arrive with a prior gene, pathway, or mechanism"
+---
+
+## Overview {#sec-hypothesis}
+
+This chapter is for users who arrive at the KG with a **prior** — a gene of interest from a paper, a pathway hypothesis, or a specific biological mechanism to test. The KG lets you rapidly check how much evidence exists across all analytical layers.
+
+---
+
+## I Have a Gene — Multi-Layer Audit
+
+Use this as your default starting point whenever you have a gene of interest.
+
+::: {.query-box}
+Tell me everything the KG knows about gene HSPA5: differential expression in high vs. low producers, WGCNA network membership, MOFA weight, Spearman correlation with qP and titre, and published evidence.
+:::
+
+The KG will return evidence from:
+
+1. <span class="evidence-badge badge-deg">DEG/DAA</span> Is it DE? In how many cohorts? In which direction?
+2. <span class="evidence-badge badge-wgcna">WGCNA</span> Which network does it belong to? What is kME? Is the network correlated with productivity?
+3. <span class="evidence-badge badge-mofa">MOFA</span> Does it have a significant Factor 1 weight?
+4. Spearman correlation with qP, titre, and IVCD directly.
+5. <span class="evidence-badge badge-lit">Literature</span> Has it been manipulated in CHO cells? With what effect?
+
+---
+
+## I Have a Pathway — Which Genes in it Are Productivity-Associated?
+
+::: {.query-box}
+Which genes in the "Protein processing in endoplasmic reticulum" KEGG pathway are differentially expressed in BMS Study 1 high vs. low producer cohorts?
+:::
+
+::: {.query-box}
+Show all genes in the glycolysis KEGG pathway with positive Spearman correlation to qP in Study 1.
+:::
+
+---
+
+## I Have a Gene List — Check Against All Evidence Layers
+
+::: {.query-box}
+For each of these genes: HSPA5, DNAJB9, MERTK, FICD, ZCCHC24 — show DEG status in Nivo high vs. low producers, WGCNA network, MOFA Factor 1 weight, and literature evidence.
+:::
+
+---
+
+## I Have a Phenotype — What Genes Are Most Correlated?
+
+::: {.query-box}
+Which genes have the strongest positive Spearman correlation with qP in Study 1? Rank descending.
+:::
+
+::: {.query-box}
+Rank proteins by their Spearman correlation with titre in Study 1, descending.
+:::
+
+::: {.query-box}
+Which metabolites are most negatively correlated with qP in Study 1?
+:::
+
+---
+
+## Testing Specific Biological Hypotheses
+
+### ER Stress / Unfolded Protein Response (UPR)
+
+*Prior: High producers activate UPR to expand ER folding capacity.*
+
+::: {.query-box}
+Show all genes involved in the UPR or ER stress response that are upregulated in high producers in Study 1.
+:::
+
+::: {.query-box}
+Is "protein processing in endoplasmic reticulum" enriched in the pro-productivity WGCNA network network_2_gene?
+:::
+
+::: {.query-box}
+Which UPR-related transcription factors (ATF4, ATF6, XBP1) are differentially expressed in high producers in Study 1?
+:::
+
+**KG verdict:** ✅ Strongly supported. Network_2_gene is enriched for ER processing / UPR. HSPA5, DNAJB9, and FICD carry positive MOFA Factor 1 weights. Literature (PMIDs 32624757, 24081924) corroborates GRP78/BiP OE as a productivity lever.
+
+---
+
+### Secretory Pathway
+
+*Prior: High producers have enhanced protein secretion machinery.*
+
+::: {.query-box}
+Are genes in the "protein export" and "antigen processing" pathways upregulated in high producers in Study 1?
+:::
+
+::: {.query-box}
+Show the top co-expressed genes with HSPA5 in WGCNA network network_2_gene.
+:::
+
+**KG verdict:** ✅ Supported. Protein export and antigen processing are both enriched in network_2_gene.
+
+---
+
+### Metabolic Bottleneck (Lactate / Ammonia / ROS)
+
+*Prior: Runaway lactate accumulation limits productivity in low producers.*
+
+::: {.query-box}
+Which metabolites differ significantly between high and low producers in Study 1? Highlight lactate.
+:::
+
+::: {.query-box}
+Show genes in the lactate metabolism pathway with negative Spearman correlation to titre in Study 1.
+:::
+
+::: {.query-box}
+Are there published interventions (gene KO or OE) that reduce lactate accumulation in CHO cells? Show cause, effect_entity, and exact_sentence.
+:::
+
+::: {.query-box}
+Which published studies consistently link apoptosis-resistance interventions (combined knockouts) to lower lactate production? Show exact_sentence and study_id.
+:::
+
+---
+
+### Chaperone / Difficult-to-Express (DTE) Proteins
+
+*Prior: DTE proteins benefit from co-expression of specific chaperones.*
+
+::: {.query-box}
+Show all chaperone genes (HSP family, DNAJ family) upregulated in high producers in Study 1.
+:::
+
+::: {.query-box}
+What publications in the KG link chaperone overexpression to improved productivity of difficult-to-express proteins? Show cause, effect_entity, and exact_sentence.
+:::
+
+::: {.callout-note}
+The KG returns results for DTE-related queries — it uses publication titles and abstracts to identify studies targeting difficult-to-express proteins. Confirmed working as of KG Version 3.
+:::
+
+---
+
+### Apoptosis Resistance
+
+*Prior: Blocking apoptosis extends culture longevity and increases total titre.*
+
+::: {.query-box}
+Are anti-apoptotic genes (BCL2 family, BCL-XL) upregulated in high producers in any BMS Study 1 cohort?
+:::
+
+::: {.query-box}
+Which published studies link apoptosis-resistance interventions (combined knockouts) to reduced lactate and improved productivity? Show exact_sentence.
+:::

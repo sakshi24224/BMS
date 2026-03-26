@@ -1,0 +1,57 @@
+/*-- scss:defaults --*/
+$primary:        #a78bfa;
+$secondary:      #fb923c;
+$body-bg:        #0f0b22;
+$body-color:     #e2e0f0;
+$headings-color: #f0eeff;
+$dark:           #0f0b22;
+$sidebar-bg:     #0a0717;
+$sidebar-fg:     #c4b5fd;
+$sidebar-hl:     #fb923c;
+$code-block-bg:  #1a1640;
+
+/*-- scss:rules --*/
+
+@import url('https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800;900&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+body { -webkit-font-smoothing: antialiased; }
+
+.hero-banner {
+  background: linear-gradient(135deg, #0a0717 0%, #2d1b69 55%, #5b21b6 100%) !important;
+}
+
+h2 { border-bottom-color: rgba(251,146,60,.4) !important; }
+h3 { color: #a78bfa !important; }
+
+.query-box {
+  background: #1a1640 !important;
+  color: #ddd6fe !important;
+  border-left-color: #a78bfa !important;
+  &::before { color: #a78bfa !important; }
+}
+
+.step-box {
+  background: #16123a !important;
+  border-color: #2e2060 !important;
+  > div:last-child { color: #d1d5db !important; }
+}
+
+.badge-deg   { background: #2e1b69 !important; color: #c4b5fd !important; border-color: #4c1d95 !important; }
+.badge-wgcna { background: #3b0f2a !important; color: #fbcfe8 !important; border-color: #831843 !important; }
+.badge-mofa  { background: #052e16 !important; color: #6ee7b7 !important; border-color: #065f46 !important; }
+.badge-lit   { background: #422006 !important; color: #fde68a !important; border-color: #92400e !important; }
+.badge-gem   { background: #1e3a5f !important; color: #93c5fd !important; border-color: #1e40af !important; }
+
+code:not(.sourceCode) {
+  background: #2e1b69 !important;
+  color: #c4b5fd !important;
+}
+
+.callout-note      { background-color: #1a1040 !important; border-left-color: #7c3aed !important; }
+.callout-tip       { background-color: #052e16 !important; border-left-color: #059669 !important; }
+.callout-warning   { background-color: #2d1f00 !important; border-left-color: #d97706 !important; }
+.callout-important { background-color: #2d1200 !important; border-left-color: #ea580c !important; }
+
+.table thead tr th { background: #0a0717 !important; color: #e2e0f0 !important; }
+.table tbody tr td { border-bottom-color: #1a1640 !important; color: #d1d5db !important; }
+.table tbody tr:hover td { background: #16123a !important; }

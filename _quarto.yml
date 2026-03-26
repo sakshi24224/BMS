@@ -1,0 +1,84 @@
+project:
+  type: book
+  output-dir: _book
+
+book:
+  title: "BMS CHO Cell Productivity Knowledge Graph"
+  subtitle: "User Manual — Version 3"
+  author: "Elucidata × BMS"
+  date: "2026-03-16"
+  date-format: "MMMM D, YYYY"
+  description: |
+    A comprehensive guide to querying, interpreting, and deriving actionable
+    insights from the BMS CHO Cell Productivity Knowledge Graph.
+
+  sidebar:
+    style: docked
+    background: "#18103a"
+    foreground: "#c4b5fd"
+    search: true
+
+  navbar:
+    background: "#18103a"
+    foreground: "#ffffff"
+    search: true
+
+  page-footer:
+    left: "BMS CHO Cell Productivity Knowledge Graph — User Manual"
+    center: "KG Version 3 &nbsp;·&nbsp; Elucidata × BMS"
+    right: "Confidential"
+    background: "#18103a"
+    foreground: "#a78bfa"
+
+  chapters:
+    - index.qmd
+    - chapters/00-getting-started.qmd
+    - chapters/01-orientation.qmd
+    - chapters/02-internal-data.qmd
+    - chapters/03-public-literature.qmd
+    - chapters/04-cross-evidence.qmd
+    - chapters/05-hypothesis-testing.qmd
+    - chapters/06-target-prioritization.qmd
+    - chapters/07-utilities.qmd
+    - chapters/glossary.qmd
+
+format:
+  html:
+    theme:
+      light: [flatly, assets/custom.scss]
+      dark:  [darkly, assets/custom-dark.scss]
+    toc: true
+    toc-depth: 3
+    toc-title: "On this page"
+    number-sections: true
+    number-depth: 2
+    smooth-scroll: true
+    anchor-sections: true
+    link-external-icon: true
+    link-external-newwindow: true
+    grid:
+      sidebar-width: 270px
+      body-width: 860px
+      margin-width: 200px
+
+  pdf:
+    documentclass: scrbook
+    classoption: ["oneside", "open=any"]
+    geometry:
+      - top=25mm
+      - left=25mm
+      - right=25mm
+      - bottom=30mm
+    colorlinks: true
+    linkcolor: "blue"
+    urlcolor: "blue"
+    toc: true
+    toc-depth: 2
+    number-sections: true
+
+bibliography: references.bib
+
+execute:
+  freeze: auto
+  echo: false
+  warning: false

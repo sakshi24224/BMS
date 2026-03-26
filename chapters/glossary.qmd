@@ -1,0 +1,168 @@
+---
+title: "Glossary"
+---
+
+This glossary is organised into four sections matching the main evidence layers in the KG. Use Ctrl+F / Cmd+F to search for a specific term.
+
+---
+
+## BMS Internal Data Terms
+
+**C144**
+: One of the two BMS antibody molecules for which in-house multi-omics data is available in Study 1 (5 clones; Days 3, 5, 9, 11, 14).
+
+**CHO (Chinese Hamster Ovary)**
+: The cell line used for BMS biopharmaceutical protein production. All BMS in-house data in this KG comes from CHO cells (*Cricetulus griseus*).
+
+**Clone**
+: A genetically identical population of cells derived from a single parent cell. Each clone in BMS Studies 1 and 2 produces either a high or low level of the target protein. Clone IDs in the KG follow the format `clone8`, `clone49`, `clone94`, etc.
+
+**Cohort**
+: A pairwise comparison group used for differential expression or abundance analysis. The KG contains 883 cohorts across five categories (see @sec-cohorts for naming conventions).
+
+**High Producer / Low Producer**
+: Classification of a clone based on its specific productivity (qP). High-producer clones secrete more product per cell per unit time. This classification is stored on the `qp_group` field of Sample nodes.
+
+**IVCD (Integral Viable Cell Density)**
+: The area under the viable cell density–time curve during a culture run. Measures cumulative biomass produced. Unit: cells × day / mL. Stored as a bioprocess Parameter node; correlations on `positive`/`negative` edges.
+
+**Molecule**
+: The therapeutic protein being produced — either `Nivo` (nivolumab, an anti-PD-1 mAb) or `C144` in Study 1; Milvaxin, COVID2, Nivo, and FXIaR in Study 2.
+
+**Nivo (Nivolumab)**
+: Anti-PD-1 monoclonal antibody. One of the two BMS molecules with full multi-omics data in Study 1.
+
+**qP (Specific Productivity)**
+: The rate of product secretion per cell per unit time. Units: pg/cell/day. The primary productivity phenotype. Stored as a bioprocess Parameter node; Spearman correlations stored on `positive`/`negative` edges from genes/proteins/metabolites.
+
+**Sample**
+: A single biological replicate — one clone × one harvest day × one study (e.g., `Nivo_clone8_day5_study1`). The leaf-level experimental unit in the KG.
+
+**Study 1**
+: BMS in-house multi-omics study with transcriptomics, proteomics, and metabolomics. Nivo (3 clones) and C144 (5 clones) at Days 3, 5, 9, 11, 14.
+
+**Study 2**
+: BMS in-house proteomics-only study. Milvaxin, COVID2, Nivo, and FXIaR at Days 5, 7, 9, 11.
+
+**Titre**
+: Total product concentration in the culture supernatant at harvest (mg/L). Reflects both qP and viable cell density over time. Stored as a bioprocess Parameter node.
+
+---
+
+## Bioinformatics & Analysis Terms
+
+**adj_pvalue (Adjusted P-value)**
+: P-value corrected for multiple testing using the Benjamini-Hochberg (BH) method. Values below 0.05 are considered statistically significant. Stored on DEG edges (`upregulated`, `downregulated`), enrichment edges, and TF edges.
+
+**DAA (Differential Abundance Analysis)**
+: Statistical analysis identifying proteins or metabolites that differ significantly in abundance between two conditions. Method: T-test with time as covariate. Stored as `upregulated`/`downregulated` edges from Protein or Metabolite nodes to Cohort nodes.
+
+**DEG (Differentially Expressed Gene)**
+: A gene whose mRNA expression differs significantly between two conditions. Method: DESeq2 with time as covariate. Stored as `upregulated`/`downregulated` edges from Gene nodes to Cohort nodes.
+
+**DTE (Difficult-to-Express)**
+: Proteins with complex folding, disulfide-bond, or glycosylation requirements that make them hard to produce at high levels in CHO cells. The KG returns DTE-related results via publication mining.
+
+**Factor (MOFA Factor)**
+: A latent variable identified by MOFA that captures coordinated variation across omics layers. Factor 1 is the most strongly correlated with productivity phenotypes. Stored as a Factor node; features linked via `gene_contributes_to_factor`, `protein_contributes_to_factor`, `metabolite_contributes_to_factor` edges.
+
+**GS (Gene Significance)**
+: In WGCNA, the Pearson correlation between a gene's expression and a productivity trait. Stored as `gs_qp`, `gs_ivcd`, `gs_titre` on `gene_part_of` edges. Corresponding p-values: `gs_qp_pval`, `gs_ivcd_pval`, `gs_titre_pval`.
+
+**GSEA (Gene Set Enrichment Analysis)**
+: Enrichment method using a ranked gene list to detect coordinated pathway shifts. Reports Normalised Enrichment Score (NES). Positive NES = enriched in upregulated genes. Stored on `kegg_pathway_enriched_in` and `go_term_enriched_in` edges with `analysis_type = 'GSEA'`.
+
+**Hub Gene**
+: A gene with high intramodular connectivity in a WGCNA module — it is the most representative of the module's biological program. Flagged by `is_hub = true` on `gene_part_of` edges.
+
+**kME (Module Eigengene Connectivity)**
+: In WGCNA, the Pearson correlation between a gene's expression and its module eigengene. Range 0–1; closer to 1 = stronger hub. Stored as `network_membership` on `gene_part_of` edges.
+
+**KO (Knockout)**
+: Complete elimination of a gene's function, typically via CRISPR-Cas9. Contrast with KD (knockdown, partial reduction) and OE (overexpression, increased expression).
+
+**log2FC (Log₂ Fold-Change)**
+: The log₂ ratio of expression/abundance in cohort A vs. cohort B. Stored as `abs_log2fc` (absolute value) on DEG/DAA edges. Positive values indicate higher expression in cohort A (high producers in productivity-based cohorts).
+
+**ME (Module Eigengene)**
+: The first principal component of all features within a WGCNA module. Represents the overall activity pattern of the module. Used to correlate module activity with productivity traits.
+
+**MOFA (Multi-Omics Factor Analysis)**
+: Unsupervised dimensionality-reduction framework integrating multiple omics layers into shared latent factors. Run with K=10 factors across transcriptomics, proteomics, and metabolomics.
+
+**mofa_weight**
+: MOFA loading weight for a feature on a given factor. Direction: positive = co-varies positively with the factor; negative = inversely. Magnitude indicates relative importance. Stored on `gene_contributes_to_factor` and equivalent edges.
+
+**NES (Normalised Enrichment Score)**
+: The GSEA enrichment score normalised for gene set size. Positive = enriched in upregulated genes; negative = enriched in downregulated genes. Stored as `enrichment_score` on enrichment edges.
+
+**NLQ (Natural Language Query)**
+: A plain-English question typed into the KG interface (Polly Co-Scientist), automatically converted to a Cypher graph query.
+
+**ORA (Over-Representation Analysis)**
+: Enrichment method testing whether a binary gene list contains more pathway members than expected by chance. Stored with `analysis_type` = `ORA_upregulated`, `ORA_downregulated`, or `ORA_Negative`.
+
+**Spearman Correlation**
+: Non-parametric rank correlation used to measure association between a molecular feature's abundance and a productivity phenotype. Stored as `correlation_factor` on `positive`/`negative` edges from internal BMS analysis.
+
+**TF (Transcription Factor)**
+: A protein that binds DNA to activate or repress gene expression. TF enrichment in the KG uses ChEA 2022 (ChIP-seq-based) data. Results stored on `tf_regulates_cohort_degs` and `tf_regulates_network_genes` edges.
+
+**TPM (Transcripts Per Million)**
+: RNA-seq normalisation unit accounting for sequencing depth and transcript length. Stored as `abs_log2_tpm` on `gene_expressed_in` edges.
+
+**UPR (Unfolded Protein Response)**
+: A cellular stress response activated when misfolded proteins accumulate in the ER. Associated with pro-productivity gene expression programs in high CHO producers (enriched in WGCNA network_2_gene).
+
+**WGCNA (Weighted Gene Co-expression Network Analysis)**
+: Network-based method grouping co-expressed genes, proteins, or metabolites into modules correlated with biological traits. The BMS KG contains 20 gene, 5 protein, and 5 metabolite networks.
+
+---
+
+## Bioprocess Parameter Terms
+
+**Ammonia (mM)**
+: Metabolic by-product that accumulates in culture and inhibits cell growth at high concentrations. Stored as a Parameter node; measured per sample on `measured_in` edges.
+
+**Glucose (g/L)**
+: Primary carbon and energy source for CHO cells. Consumption rate reflects metabolic activity. Stored as a Parameter node.
+
+**Lactate (mM)**
+: Metabolic by-product of glycolysis. Accumulation is associated with low productivity and metabolic inefficiency. A key bioprocess parameter tracked across all Study 1 samples.
+
+**O₂ (Dissolved Oxygen)**
+: Dissolved oxygen concentration in the bioreactor. Critical for aerobic metabolism and productivity. Measured per sample in Study 1.
+
+**VCD (Viable Cell Density)**
+: Number of living cells per mL of culture. Used alongside qP to calculate volumetric productivity. Stored as a Parameter node.
+
+---
+
+## External Database Terms
+
+**ChEBI**
+: Chemical Entities of Biological Interest. Database providing IDs and annotations for small molecules. ChEBI IDs are the primary identifiers for Metabolite nodes in the KG.
+
+**ChEA 2022**
+: ChIP Enrichment Analysis 2022. Curated database of TF–target relationships derived from ChIP-seq experiments across multiple organisms. Used for TF enrichment in this KG.
+
+**GO (Gene Ontology)**
+: Standardised vocabulary of biological terms. Sub-ontologies: Biological Process (BP), Molecular Function (MF), Cellular Component (CC). GO annotations in the KG are propagated via mouse orthologs.
+
+**HMDB**
+: Human Metabolome Database. Provides metabolite annotations and cross-references. Stored on Metabolite nodes as `hmdb` field.
+
+**KEGG**
+: Kyoto Encyclopedia of Genes and Genomes. Provides pathway maps, enzyme classifications, reaction definitions, and compound information. CHO-specific pathways use organism code `cge`.
+
+**KEGG Ortholog (KO)**
+: A functional ortholog group in KEGG identified by a K-number (e.g., `K00001`). CHO genes are mapped to KOs via `assigned_to` edges, which bridge to pathways, modules, enzymes, and reactions.
+
+**NCBI Gene**
+: National Center for Biotechnology Information Gene database. NCBI Entrez Gene IDs are the primary identifiers for Gene nodes in the KG.
+
+**NCIT**
+: NCI Thesaurus. Used to standardise bioprocess parameter names (e.g., `NCIT:C74799` for a measurement parameter). Stored on Parameter nodes.
+
+**UniProt**
+: Universal Protein Resource. UniProt accessions are stored on Protein nodes as `uniprot_id` for cross-database linking.

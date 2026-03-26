@@ -1,0 +1,101 @@
+---
+title: "Cross-Evidence Integration"
+subtitle: "Concordance and discordance between BMS internal data and published literature"
+---
+
+## Overview {#sec-cross-evidence}
+
+The highest-confidence engineering candidates are those supported by **both** BMS internal omics data and independent published literature. This chapter explains how to find, interpret, and resolve agreement — or disagreement — between these two evidence streams.
+
+---
+
+## Why Cross-Evidence Analysis Matters
+
+Internal data alone surfaces many differentially expressed genes — not all are validated targets. Literature alone reflects findings in other cell lines, products, and contexts. When both sources agree in direction, confidence rises substantially.
+
+The KG stores BMS omics results and literature associations as separate edge types on the same Gene nodes. A single query can traverse both simultaneously.
+
+---
+
+## Checking if a Literature Gene Appears in BMS Data
+
+::: {.query-box}
+Is HSPA5 differentially expressed in any BMS Study 1 high vs. low producer cohorts? Show adj_pvalue and abs_log2fc.
+:::
+
+::: {.query-box}
+Is HSPA5 a member of a WGCNA gene network correlated with productivity in Study 1? Show network_membership and gs_qp.
+:::
+
+::: {.query-box}
+Does HSPA5 have a significant MOFA Factor 1 weight in Study 1?
+:::
+
+::: {.query-box}
+What is the Spearman correlation of HSPA5 expression with qP in Study 1?
+:::
+
+---
+
+## Direction Concordance
+
+The most important check — does the **direction** of the BMS signal agree with the published manipulation effect?
+
+| BMS signal | Published effect | Verdict |
+|---|---|---|
+| Gene upregulated in high producers | OE → ↑ qP | ✅ Concordant — strong OE candidate |
+| Gene downregulated in high producers | KO → ↑ titer | ✅ Concordant — strong KO candidate |
+| Gene upregulated in high producers | OE → ↓ qP | ⚠️ Discordant — investigate context |
+| Gene not DE in BMS data | OE → ↑ qP | 🔍 BMS data silent — check WGCNA and MOFA layers |
+
+::: {.query-box}
+For genes with published evidence of OE showing positive qP effect, which are also upregulated in high vs. low producers in BMS Study 1?
+:::
+
+::: {.query-box}
+Show genes where BMS data shows upregulation in high producers AND literature shows OE → increased titer. Include abs_log2fc, correlation_factor, and exact_sentence.
+:::
+
+---
+
+## Explaining Discordance
+
+When BMS and literature disagree, common explanations:
+
+- **Source organism** — study was in human or mouse cells; CHO physiology differs. Check `gene_source_organism` on the edge.
+- **Product type** — effect seen for mAb production may not hold for fusion proteins or DTE proteins
+- **Cell line background** — CHO-K1, CHO-DG44, and CHO-S have regulatory differences
+- **Culture conditions** — fed-batch vs. batch; different temperature shifts or pH profiles
+- **Timepoint** — perturbation effect measured at a different culture stage
+
+::: {.query-box}
+Gene X is upregulated in BMS high producers but literature shows OE → decreased qP. Are those literature studies from CHO or human/mouse cells? Show gene_source_organism for each association.
+:::
+
+---
+
+## Genes with Multi-Omics + Literature Support
+
+::: {.query-box}
+Show genes that are: (1) consistently upregulated in high producers across ≥7/10 BMS Study 1 cohorts, (2) members of a pro-productivity WGCNA network, (3) have positive MOFA Factor 1 weight, AND (4) have published evidence linking them to increased qP or titer.
+:::
+
+---
+
+## Mapping BMS Data to Public Omics
+
+::: {.query-box}
+Is HSPA5 differentially expressed in any of the public high-vs-low producer omics datasets in the KG?
+:::
+
+::: {.query-box}
+Which genes from the 63-gene BMS shortlist are also differentially expressed in at least 3 public CHO datasets?
+:::
+
+---
+
+## Genes Unique to BMS Data (No Literature Precedent)
+
+::: {.query-box}
+Show genes consistently upregulated in high producers in BMS Study 1 that are NOT mentioned in any ingested publication. These are potential novel targets.
+:::

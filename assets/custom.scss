@@ -1,0 +1,382 @@
+/*-- scss:defaults --*/
+
+// ── Brand palette ──────────────────────────────────────────────────────────
+$primary:            #6d28d9;   // deep violet
+$secondary:          #ea580c;   // burnt orange
+$success:            #059669;
+$info:               #2563eb;
+$warning:            #d97706;
+$danger:             #dc2626;
+$dark:               #18103a;   // near-black navy
+$light:              #f9f8ff;
+$body-bg:            #ffffff;
+$body-color:         #1e1b2e;
+
+// ── Typography ─────────────────────────────────────────────────────────────
+$font-family-sans-serif: "Source Sans 3", "Source Sans Pro", ui-sans-serif, system-ui, sans-serif;
+$font-family-monospace:  "JetBrains Mono", "Fira Mono", ui-monospace, monospace;
+$font-size-base:         1rem;       // 16 px
+$line-height-base:       1.75;
+
+// ── Headings ───────────────────────────────────────────────────────────────
+$headings-font-family:   "Golos Text", "Source Sans 3", sans-serif;
+$headings-font-weight:   700;
+$headings-color:         #18103a;
+$headings-line-height:   1.25;
+
+// ── Links ──────────────────────────────────────────────────────────────────
+$link-color:             $primary;
+$link-decoration:        none;
+$link-hover-color:       #4c1d95;
+$link-hover-decoration:  underline;
+
+// ── Sidebar ────────────────────────────────────────────────────────────────
+$sidebar-bg:             #18103a;
+$sidebar-fg:             #c4b5fd;
+$sidebar-hl:             #fb923c;
+
+// ── Code ───────────────────────────────────────────────────────────────────
+$code-bg:                #ede9fe;
+$code-color:             #4c1d95;
+$code-block-bg:          #1e1b4b;
+$code-block-border-color: $primary;
+
+/*-- scss:rules --*/
+
+// ── Google Fonts ───────────────────────────────────────────────────────────
+@import url('https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800;900&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+// ── Base body tweaks ───────────────────────────────────────────────────────
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// ── Navbar ─────────────────────────────────────────────────────────────────
+.navbar {
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  .navbar-title { font-weight: 700; font-size: 1rem; letter-spacing: -.01em; }
+}
+
+// ── Sidebar ─────────────────────────────────────────────────────────────────
+#quarto-sidebar {
+  background: #18103a !important;
+
+  .sidebar-title { color: #f97316; font-weight: 800; font-size: .95rem; }
+
+  .sidebar-item {
+    .sidebar-item-text {
+      font-size: .875rem;
+      font-weight: 500;
+      color: #c4b5fd;
+      transition: color .15s;
+    }
+    &:hover .sidebar-item-text { color: #ffffff; }
+    &.active > .sidebar-item-container .sidebar-item-text {
+      color: #fb923c;
+      font-weight: 600;
+    }
+  }
+
+  .sidebar-section .sidebar-item-text { color: #a78bfa; }
+}
+
+// ── Chapter/section numbers ────────────────────────────────────────────────
+.header-section-number { color: #ea580c; margin-right: .35em; font-weight: 700; }
+
+// ── Main content max-width & spacing ──────────────────────────────────────
+#quarto-document-content {
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+}
+
+// ── Headings ───────────────────────────────────────────────────────────────
+h1 { font-size: 2rem;   letter-spacing: -.02em; }
+h2 {
+  font-size: 1.35rem;
+  border-bottom: 2px solid #fed7aa;
+  padding-bottom: .4rem;
+  margin-top: 2.25rem;
+  margin-bottom: 1rem;
+  color: #18103a;
+}
+h3 {
+  font-size: 1.1rem;
+  color: #6d28d9;
+  margin-top: 1.75rem;
+  font-weight: 600;
+}
+h4 { font-size: 1rem; color: #374151; font-weight: 600; }
+
+// ── Hero banner ─────────────────────────────────────────────────────────────
+.hero-banner {
+  background: linear-gradient(135deg, #18103a 0%, #3b1f8c 55%, #6d28d9 100%);
+  border-radius: 14px;
+  padding: 3rem 3rem 3rem 3rem;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 12px 40px rgba(109,40,217,.22), 0 2px 8px rgba(0,0,0,.12);
+  position: relative;
+  overflow: hidden;
+
+  // subtle pattern overlay
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 80% 20%, rgba(251,146,60,.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: #fb923c;
+    line-height: 1.15;
+    margin: 0 0 .75rem 0;
+    letter-spacing: -.02em;
+  }
+  .hero-subtitle {
+    font-size: 1rem;
+    color: rgba(255,255,255,.80);
+    margin: 0;
+    font-weight: 400;
+    letter-spacing: .01em;
+  }
+}
+
+// ── Evidence badge pills ────────────────────────────────────────────────────
+.evidence-badge {
+  display: inline-block;
+  padding: .18em .7em;
+  border-radius: 9999px;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  margin: 2px 3px;
+  vertical-align: middle;
+}
+// High-contrast badge colours (WCAG AA compliant — text contrast ≥ 4.5:1)
+.badge-deg   { background: #ede9fe; color: #3b0764; border: 1px solid #a78bfa; font-weight: 700; }
+.badge-wgcna { background: #fce7f3; color: #700e3d; border: 1px solid #f9a8d4; font-weight: 700; }
+.badge-mofa  { background: #dcfce7; color: #14532d; border: 1px solid #86efac; font-weight: 700; }
+.badge-lit   { background: #fef9c3; color: #713f12; border: 1px solid #fde047; font-weight: 700; }
+.badge-gem   { background: #dbeafe; color: #1e3a8a; border: 1px solid #93c5fd; font-weight: 700; }
+
+// ── Query example boxes ─────────────────────────────────────────────────────
+.query-box {
+  background: #faf5ff;
+  border-left: 3px solid #7c3aed;
+  border-radius: 0 8px 8px 0;
+  padding: .875rem 1.25rem;
+  margin: 1rem 0;
+  font-size: .925rem;
+  color: #3b0764;
+  font-style: italic;
+  line-height: 1.6;
+  position: relative;
+
+  &::before {
+    content: "💬  Example query";
+    display: block;
+    font-style: normal;
+    font-weight: 700;
+    font-size: .72rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #7c3aed;
+    margin-bottom: .35rem;
+  }
+}
+
+// ── Step / workflow cards ───────────────────────────────────────────────────
+.step-box {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  background: #fafafa;
+  border: 1px solid #e8e3ff;
+  border-radius: 10px;
+  padding: .875rem 1.25rem;
+  margin: .6rem 0;
+  transition: border-color .15s, box-shadow .15s;
+
+  &:hover {
+    border-color: #c4b5fd;
+    box-shadow: 0 2px 12px rgba(109,40,217,.07);
+  }
+
+  .step-number {
+    background: linear-gradient(135deg, #6d28d9, #4c1d95);
+    color: #ffffff !important;
+    font-weight: 800;
+    font-size: .85rem;
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(109,40,217,.35);
+    text-shadow: none;
+  }
+
+  > div:last-child {
+    color: #374151;
+    font-size: .925rem;
+    line-height: 1.55;
+    padding-top: .25rem;
+  }
+}
+
+// ── Tables ──────────────────────────────────────────────────────────────────
+.table {
+  font-size: .88rem;
+  border-collapse: collapse;
+  width: 100%;
+
+  thead tr th {
+    background: #18103a;
+    color: #ffffff;
+    font-weight: 600;
+    padding: .6rem .9rem;
+    font-size: .8rem;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+  }
+
+  tbody tr td {
+    padding: .5rem .9rem;
+    color: #374151;
+    vertical-align: top;
+    border-bottom: 1px solid #f0eeff;
+  }
+
+  tbody tr:hover td { background: #faf7ff; }
+}
+
+// ── Callouts ────────────────────────────────────────────────────────────────
+.callout {
+  border-radius: 8px;
+  border-left-width: 4px;
+}
+.callout-note {
+  border-left-color: #6d28d9 !important;
+  background-color: #faf5ff !important;
+  .callout-title { color: #4c1d95 !important; }
+}
+.callout-tip {
+  border-left-color: #059669 !important;
+  background-color: #f0fdf4 !important;
+  .callout-title { color: #065f46 !important; }
+}
+.callout-warning {
+  border-left-color: #d97706 !important;
+  background-color: #fffbeb !important;
+  .callout-title { color: #92400e !important; }
+}
+.callout-important {
+  border-left-color: #ea580c !important;
+  background-color: #fff7ed !important;
+  .callout-title { color: #7c2d12 !important; }
+}
+
+// ── Inline code ─────────────────────────────────────────────────────────────
+code:not(.sourceCode) {
+  background: #ede9fe;
+  color: #4c1d95;
+  padding: .1em .4em;
+  border-radius: 4px;
+  font-size: .85em;
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 500;
+}
+
+// ── TOC (right sidebar) ─────────────────────────────────────────────────────
+#quarto-margin-sidebar {
+  .toc-title { font-weight: 700; color: #6b7280; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; }
+  .toc-active { color: #ea580c !important; font-weight: 600; }
+  a { color: #6b7280; font-size: .83rem; }
+  a:hover { color: #6d28d9; }
+}
+
+// ── Footer ──────────────────────────────────────────────────────────────────
+.nav-footer {
+  border-top: 1px solid #e5e7eb;
+  background: #fafafa;
+  font-size: .83rem;
+  color: #9ca3af;
+}
+
+// ── Responsive image fix ─────────────────────────────────────────────────
+img { max-width: 100%; height: auto; }
+
+// ── Sidebar chapter/section numbers ────────────────────────────────────────
+// Fix: numbers in sidebar are invisible in light mode
+.sidebar-navigation {
+  .chapter-number {
+    color: #fb923c !important;
+    font-weight: 700;
+    margin-right: .3em;
+  }
+  // Flatly theme renders section numbers as ::before on <a> tags
+  a[data-number]::before,
+  .sidebar-item-text .chapter-number,
+  span.chapter-number {
+    color: #fb923c !important;
+    font-weight: 700;
+  }
+}
+
+// Quarto book sidebar numbers (rendered inside .sidebar-item-text spans)
+#quarto-sidebar {
+  .chapter-number { color: #fb923c !important; font-weight: 700; }
+  span[class*="chapter"] { color: #fb923c !important; }
+  .sidebar-item-container a {
+    display: flex;
+    align-items: baseline;
+    gap: .3em;
+    &::before { color: #fb923c !important; font-weight: 700; }
+  }
+  // numbered list items inside sidebar
+  ol li::marker,
+  ul li::marker { color: #fb923c; }
+}
+
+// ── Partner logos (Welcome page) ────────────────────────────────────────────
+.partner-logos {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding: .75rem 0;
+
+  .logo-elucidata {
+    height: 36px;
+    width: auto;
+    object-fit: contain;
+    filter: none;
+    opacity: .92;
+  }
+
+  // BMS logo has a black background — show on white with subtle border
+  .logo-bms {
+    height: 32px;
+    width: auto;
+    object-fit: contain;
+    background: #000;
+    padding: 4px 10px;
+    border-radius: 6px;
+    opacity: .90;
+  }
+
+  .logo-divider {
+    width: 1px;
+    height: 28px;
+    background: #d1d5db;
+    flex-shrink: 0;
+  }
+}
+
+// Dark mode: elucidata logo fine; BMS logo bg already black

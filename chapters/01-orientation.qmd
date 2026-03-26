@@ -1,0 +1,140 @@
+---
+title: "Orientation"
+subtitle: "KG structure, data model, cohort naming, and how to phrase queries"
+---
+
+## Overview {#sec-orientation}
+
+Before running any analysis, spend a few minutes here. Users who understand the KG structure get significantly better query results and spend less time troubleshooting empty returns.
+
+---
+
+## What is the Knowledge Graph? {#sec-kg-intro}
+
+The BMS CHO Productivity Knowledge Graph is a **property graph database** (Neo4j) that connects biological entities — genes, proteins, metabolites, pathways, samples, publications — through typed, directed relationships. It is the integration layer that lets a single question simultaneously draw on multi-omics data, co-expression networks, MOFA factors, pathway annotations, and published literature evidence.
+
+A knowledge graph has three primitives:
+
+| Primitive | Description | Examples in this KG |
+|---|---|---|
+| **Nodes** | Objects or concepts | Gene, Protein, Metabolite, Sample, Cohort, Network, Factor, Pathway, Study |
+| **Edges** | Typed directed relationships | `upregulated`, `gene_part_of`, `gene_contributes_to_factor`, `kegg_pathway_enriched_in` |
+| **Properties** | Metadata on nodes and edges | `adj_pvalue`, `abs_log2fc`, `network_membership` (kME), `mofa_weight`, `correlation_factor` |
+
+---
+
+## Data Model {#sec-data-model}
+
+![**Figure 1.1** The BMS KG data model. Nodes (coloured boxes) represent entity types; labelled arrows are named edge types. Blue nodes are molecular features (Gene, Protein, Metabolite); pink nodes are experimental design entities (Sample, Cohort, Study, Parameters); purple/tan nodes are analytical results (Network, Factor, Phenotypes); grey-purple nodes are pathway and functional annotations.](../assets/kg-schema.png){fig-alt="BMS Knowledge Graph schema diagram showing all node and edge types" .lightbox width="100%"}
+
+Every node type in the KG and its role:
+
+| Node | Role |
+|---|---|
+| **Gene** | CHO (*Cricetulus griseus*) gene (NCBI Gnomon). Primary join key across all omics layers. Carries human/mouse/rat ortholog IDs. |
+| **Protein** | Protein detected in BMS proteomics (RefSeq accession). Linked to its encoding Gene via `encodes`. |
+| **Metabolite** | Small molecule from BMS metabolomics (ChEBI ID). Carries KEGG, HMDB, PubChem, BMS-internal fields. |
+| **Sample** | One clone × one harvest day × one study. Leaf-level experimental unit. |
+| **Cohort** | Pairwise comparison between two sample groups (e.g., high vs. low producers). Anchor for all DEG/DAA and enrichment results. |
+| **Study** | A CHO productivity experiment — internal BMS or published public dataset. |
+| **Network** | A WGCNA co-expression or co-abundance module (gene, protein, or metabolite layer). |
+| **Factor** | A MOFA latent factor capturing coordinated variation across omics layers. |
+| **Pathway** | KEGG pathway (CHO-specific, organism code `cge`). |
+| **GO Term** | Gene Ontology term — Biological Process (BP), Molecular Function (MF), or Cellular Component (CC). |
+| **Positive / Negative Phenotype** | Desirable or undesirable bioprocess outcome (e.g., `increased_specific_productivity_qp`). |
+| **Parameter** | Quantitative bioprocess measurement (e.g., qP, IVCD, lactate) stored per sample. |
+| **KEGG Enzyme / Reaction / Ortholog / Module** | KEGG metabolic network entities enabling mechanistic pathway traversal. |
+
+### Key Edge Types
+
+| Edge | Connects | Key properties |
+|---|---|---|
+| `upregulated` / `downregulated` / `non_regulated` | Gene/Protein/Metabolite → Cohort | `abs_log2fc`, `adj_pvalue`, `direction`, `sampling_type` |
+| `gene_expressed_in` | Gene → Sample | `abs_log2_tpm`, `direction` |
+| `protein_abundant_in` | Protein → Sample | `abs_log2_abundance`, `direction` |
+| `metabolite_abundant_in` | Metabolite → Sample | `abs_log2_abundance`, `sampling_type` (pellet / supernatant) |
+| `gene_part_of` | Gene → Network | `network_membership` (kME), `gs_qp`, `gs_ivcd`, `gs_titre`, `is_hub` |
+| `gene_contributes_to_factor` | Gene → Factor | `mofa_weight` |
+| `positive` / `negative` | Gene/Protein/Metabolite → Phenotype | `correlation_factor`, `pvalue`, `cause`, `exact_sentence`, `causal_weight` |
+| `kegg_pathway_enriched_in` | Pathway → Cohort/Network/Factor | `enrichment_score`, `padj`, `analysis_type`, `lead_genes` |
+| `go_term_enriched_in` | GO Term → Cohort/Network/Factor | `enrichment_score`, `padj`, `source_database` |
+| `tf_regulates_cohort_degs` | Gene (TF) → Cohort | `padj`, `direction` (UP/DOWN), `tf_symbol`, `target_ncbi_ids` |
+| `factor_correlated_with_phenotype` | Factor → Phenotype | `correlation`, `direction` |
+| `gene_network_correlated_with_phenotype` | Network → Phenotype | `pearson_correlation`, `fdr`, `direction` |
+| `measured_in` | Parameter → Sample | `bms_bioprocess_parameter_value`, `bms_bioprocess_parameter_unit` |
+
+---
+
+## What Data Lives in the KG? {#sec-data-contents}
+
+### BMS In-House Data
+
+**Study 1** — full multi-omics at Days 3, 5, 9, 11, 14:
+
+| Molecule | Clones | High qP | Low qP | Omics layers |
+|---|---|---|---|---|
+| C144 | 5 | 2 | 3 | Transcriptomics · Proteomics · Metabolomics |
+| Nivo | 3 | 1 | 2 | Transcriptomics · Proteomics · Metabolomics |
+
+**Study 2** — proteomics only at Days 5, 7, 9, 11:
+
+| Molecule | Clones | High qP | Low qP |
+|---|---|---|---|
+| Milvaxin | 6 | 3 | 3 |
+| COVID2 | 6 | 3 | 3 |
+| Nivo | 3 | 1 | 2 |
+| FXIaR | 6 | 3 | 3 |
+
+Bioprocess parameters measured in Study 1: qP · titre · IVCD · lactate · O₂ · ammonia · glucose · cell density.
+
+### Public Data
+
+- 11 transcriptomics datasets from 10 publications
+- 3 proteomics public datasets
+- ~290 publications on genetic perturbation → productivity outcomes
+
+### External Databases
+
+NCBI Gene · UniProt · ChEBI · KEGG · Gene Ontology · PubMed · Cellosaurus · NCIT
+
+---
+
+## Cohort Naming Conventions {#sec-cohorts}
+
+The KG holds **883 cohorts** across five categories. Always name your cohort explicitly when querying for DEG or enrichment results.
+
+| Category | Count | Example |
+|---|---|---|
+| Productivity-Based (all clones & days) | 6 | `Nivo_study1_all_high_vs_Nivo_study1_all_low` |
+| Clone-Wise (all days) | 36 | `Nivo_clone8_study1_all_vs_Nivo_clone49_study1_all` |
+| Temporal (same clone, different days) | 190 | `Nivo_clone49_day11_study1_vs_Nivo_clone49_day8_study1` |
+| Temporal Cross-Clone | 630 | `Nivo_clone8_day11_study1_vs_Nivo_clone49_day8_study1` |
+| Public (high vs. low / non-producer) | 19 | `GSE295486_high_producer_vs_GSE295486_non_producer` |
+
+::: {.callout-tip}
+Use **Productivity-Based cohorts** for global "which genes drive high productivity?" questions. Use **Clone-Wise** or **Temporal** cohorts for clone-specific or time-resolved analysis.
+:::
+
+---
+
+## How to Phrase Natural-Language Queries {#sec-query-tips}
+
+```{=html}
+<div class="step-box"><div class="step-number">1</div><div><strong>Name the entity type explicitly</strong> — say "gene", "protein", or "metabolite". Never just a symbol alone.</div></div>
+<div class="step-box"><div class="step-number">2</div><div><strong>Name the cohort or condition</strong> — include molecule (Nivo / C144) and study when relevant.</div></div>
+<div class="step-box"><div class="step-number">3</div><div><strong>State the direction</strong> — "upregulated in high producers", "positive MOFA Factor 1 weight", "negatively correlated with qP".</div></div>
+<div class="step-box"><div class="step-number">4</div><div><strong>State the evidence layer</strong> — "in WGCNA network", "via MOFA Factor 1", "from published literature".</div></div>
+<div class="step-box"><div class="step-number">5</div><div><strong>Include explicit thresholds</strong> — exact numbers rather than "strong" or "significant".</div></div>
+```
+
+::: {.query-box}
+Which genes are upregulated in cohort Nivo_study1_all_high_vs_Nivo_study1_all_low with adj_pvalue < 0.05 and abs_log2fc > 2?
+:::
+
+::: {.query-box}
+Which proteins are positively correlated with qP (Spearman r > 0.5) in Study 1, across all molecules?
+:::
+
+::: {.callout-tip}
+If a query returns nothing, relax one constraint at a time — e.g., lower the cohort consistency requirement from ≥7/10 to ≥5/10, or widen the fold-change threshold.
+:::

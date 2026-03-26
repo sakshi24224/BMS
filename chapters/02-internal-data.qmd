@@ -1,0 +1,397 @@
+---
+title: "Internal Data Exploration"
+subtitle: "Browsing BMS data, differential expression, co-expression networks, multi-omics integration, pathway enrichment, and transcription factor analysis"
+---
+
+## Overview {#sec-internal}
+
+This chapter covers everything you can learn from BMS in-house data. It is organised into six layers, each building on the previous:
+
+```{=html}
+<div class="step-box"><div class="step-number">A</div><div><strong>Data Browsing</strong> — what samples, clones, molecules, and timepoints are available</div></div>
+<div class="step-box"><div class="step-number">B</div><div><strong>Differential Expression &amp; Abundance (DEG/DAA)</strong> — which features change between high and low producers</div></div>
+<div class="step-box"><div class="step-number">C</div><div><strong>Co-expression Networks (WGCNA)</strong> — which genes/proteins/metabolites move together</div></div>
+<div class="step-box"><div class="step-number">D</div><div><strong>Multi-Omics Integration (MOFA)</strong> — latent factors that explain productivity variation across all omics layers simultaneously</div></div>
+<div class="step-box"><div class="step-number">E</div><div><strong>Pathway &amp; Functional Enrichment</strong> — KEGG and GO enrichment stored on the KG</div></div>
+<div class="step-box"><div class="step-number">F</div><div><strong>Transcription Factor Analysis</strong> — master regulators of high-producer gene programs</div></div>
+```
+
+---
+
+## A · Data Browsing {#sec-browsing}
+
+::: {.query-box}
+What samples are available for the Nivo molecule in Study 1?
+:::
+
+::: {.query-box}
+Which days have both transcriptomics and proteomics measurements in Study 1?
+:::
+
+::: {.query-box}
+Show qP, titre, and IVCD values across all Nivo clones in Study 1.
+:::
+
+Use the molecule filter to restrict any query to a single drug candidate (`Nivo` or `C144`).
+
+---
+
+## B · Differential Expression & Abundance {#sec-deg}
+
+### What is DEG/DAA?
+
+**Differential Expression Analysis (DEG)** identifies genes whose mRNA levels differ significantly between two sample groups — in this KG, typically high vs. low producers. **Differential Abundance Analysis (DAA)** applies the same logic to proteins and metabolites.
+
+Results are stored as directed edges from each molecular feature to a Cohort node, with properties capturing the magnitude and significance of the difference.
+
+| Omics layer | Method | Covariate | Normalisation |
+|---|---|---|---|
+| Transcriptomics (DEG) | DESeq2 | Time | TPM |
+| Proteomics (DAA) | T-test | Time | Median central log₂ |
+| Metabolomics (DAA) | T-test | Time | Median central log₂ |
+
+### Querying DEG/DAA Results
+
+::: {.query-box}
+Which genes are upregulated in cohort Nivo_study1_all_high_vs_Nivo_study1_all_low with adj_pvalue < 0.05 and abs_log2fc > 2?
+:::
+
+::: {.query-box}
+Show genes downregulated in high vs. low C144 producers in Study 1, with abs_log2fc > 1.5.
+:::
+
+::: {.query-box}
+Which proteins are differentially abundant in high vs. low Nivo producers in Study 1?
+:::
+
+::: {.query-box}
+Show differentially abundant metabolites in the pellet fraction for high vs. low C144 producers.
+:::
+
+::: {.query-box}
+Which genes are consistently upregulated in at least 7 out of 10 high vs. low producer cohorts in Study 1?
+:::
+
+**The multi-filter shortlisting funnel (Study 1):**
+
+| Filter step | Genes remaining |
+|---|---|
+| All DEGs across 232 cohorts | 11,481 |
+| adj_pvalue < 0.05 and abs_log2fc > 2 | 5,682 |
+| Directional consistency — RNA and protein both up or both down | 775 |
+| Upregulated in high producers | 330 |
+| Concordant RNA–protein regulation and Spearman r > 0.5 with qP | **63** |
+
+### How to Interpret DEG/DAA Results
+
+| Output column | Source edge property | Meaning |
+|---|---|---|
+| `abs_log2fc` | `upregulated.abs_log2fc` | Absolute log₂ fold-change (cohort A vs. B). Higher = larger difference. |
+| `direction` | `upregulated.direction` | `positive` = higher in cohort A (high producers); `negative` = higher in cohort B |
+| `adj_pvalue` | `upregulated.adj_pvalue` | BH-corrected p-value. Use < 0.05 as significance threshold. |
+| `pvalue` | `upregulated.pvalue` | Nominal p-value. Prefer adj_pvalue for filtering. |
+| `sampling_type` | Metabolomics edges only | `pellet` = intracellular; `supernatant` = extracellular fraction |
+
+::: {.callout-tip}
+For robust targets, filter for genes with consistent direction in ≥7/10 high-vs-low cohorts AND both RNA and protein showing the same directional change. The 63-gene shortlist above is a reliable starting point.
+:::
+
+---
+
+## C · Co-expression Networks (WGCNA) {#sec-wgcna}
+
+### What is WGCNA?
+
+**Weighted Gene Co-expression Network Analysis (WGCNA)** groups genes, proteins, or metabolites that vary together across samples into **modules**. Each module is summarised by its **Module Eigengene (ME)** — the first principal component of all members — which is then correlated with bioprocess traits (qP, titre, IVCD) to identify productivity-associated modules.
+
+The pipeline runs in five steps:
+
+```{=html}
+<div class="step-box"><div class="step-number">1</div><div><strong>Correlate</strong> — pairwise feature-to-feature correlations across 36 samples × 3 omics layers</div></div>
+<div class="step-box"><div class="step-number">2</div><div><strong>Weight</strong> — raise to soft-threshold power β to amplify strong connections and suppress noise (β = 19 genes, 6 protein, 14 metabolites)</div></div>
+<div class="step-box"><div class="step-number">3</div><div><strong>Cluster</strong> — build Topological Overlap Matrix (TOM) → hierarchical clustering → modules (20 gene, 5 protein, 5 metabolite)</div></div>
+<div class="step-box"><div class="step-number">4</div><div><strong>Summarise</strong> — reduce each module to its Module Eigengene (1 value per sample)</div></div>
+<div class="step-box"><div class="step-number">5</div><div><strong>Correlate to traits</strong> — Pearson r of each ME vs. qP, titre, IVCD → significant modules flagged</div></div>
+```
+
+> **Published precedent:** Melville et al. (2011, *Journal of Biotechnology*) applied WGCNA to 295 microarrays from 121 CHO cultures and identified six transcriptional modules correlated with qP, growth rate, and viability — directly validating this approach for CHO productivity analysis.
+
+In the KG, modules are stored as **Network nodes** (e.g., `network_2_gene`, `network_1_protein`). Module membership is stored on `gene_part_of`, `protein_part_of`, and `metabolite_part_of` edges.
+
+### Querying WGCNA Results
+
+::: {.query-box}
+Which gene WGCNA networks (modules) are positively correlated with qP in Study 1?
+:::
+
+::: {.query-box}
+List all genes in network_2_gene (WGCNA module M1) with their network_membership (kME) scores, sorted descending.
+:::
+
+::: {.query-box}
+What are the top 10 hub genes (is_hub = true) in network_2_gene?
+:::
+
+::: {.query-box}
+Show genes in network_2_gene with gs_qp > 0.5, ranked by descending network_membership.
+:::
+
+::: {.query-box}
+Which protein WGCNA modules correlate with IVCD in Study 1?
+:::
+
+::: {.query-box}
+Show metabolite module members with significant correlation to qP, ranked by gs_qp.
+:::
+
+### How to Interpret WGCNA Results
+
+| Output column | Source edge property | Meaning |
+|---|---|---|
+| `network_membership` | `gene_part_of.network_membership` | kME — how strongly a gene tracks its module eigengene (0–1; closer to 1 = stronger hub) |
+| `gs_qp` | `gene_part_of.gs_qp` | Gene significance for qP — Pearson r of gene expression with qP across samples |
+| `gs_ivcd` | `gene_part_of.gs_ivcd` | Gene significance for IVCD |
+| `gs_titre` | `gene_part_of.gs_titre` | Gene significance for product titre |
+| `gs_qp_pval` | `gene_part_of.gs_qp_pval` | P-value for gs_qp — use < 0.05 for significance |
+| `sig_qp` / `sig_ivcd` / `sig_titre` | Boolean flags | `true` = gene–trait association is statistically significant |
+| `is_hub` | `gene_part_of.is_hub` | `true` = high intramodular connectivity; hub gene |
+| `pearson_correlation` | `gene_network_correlated_with_phenotype` | Module eigengene vs. phenotype Pearson r |
+| `fdr` | Same edge | BH-corrected FDR for module–phenotype correlation |
+
+::: {.callout-note}
+**Key modules identified in Study 1:**
+
+- `network_2_gene` (M1 Pro-productivity) — ER processing / UPR enriched. ME positively correlated with qP.
+- `network_18_gene` (M18 Anti-productivity) — Cell cycle / DNA replication enriched. ME negatively correlated with qP.
+:::
+
+---
+
+## D · Multi-Omics Factor Analysis (MOFA) {#sec-mofa}
+
+### What is MOFA?
+
+**Multi-Omics Factor Analysis (MOFA)** is an unsupervised dimensionality-reduction method that integrates transcriptomics, proteomics, and metabolomics simultaneously to identify **latent factors** — hidden biological programs that explain variation across samples.
+
+Each factor is a weighted linear combination of features across all three omics layers. Features with large weights drive that factor; the factor score for each sample reflects how strongly the sample expresses that biological program.
+
+```{=html}
+<div class="step-box"><div class="step-number">1</div><div><strong>Input preparation</strong> — top 5,000 variable features (transcriptomics &amp; proteomics), all 596 metabolite features</div></div>
+<div class="step-box"><div class="step-number">2</div><div><strong>MOFA decomposition</strong> — joint matrix factorisation across 3 omics views; K = 10 latent factors</div></div>
+<div class="step-box"><div class="step-number">3</div><div><strong>Factor–trait correlation</strong> — Spearman's ρ of each factor score vs. qP, titre, IVCD across 36 samples</div></div>
+<div class="step-box"><div class="step-number">4</div><div><strong>Feature weight interpretation</strong> — top 80th percentile features per factor per layer extracted for pathway enrichment</div></div>
+```
+
+**Significant factors and their biological meaning:**
+
+| Factor | Correlation pattern | Interpretation |
+|---|---|---|
+| **Factor 1** | qP +0.848 · IVCD +0.860 · Titre +0.904 | Full-spectrum productivity signal — the most actionable factor |
+| Factor 2 | qP positive · IVCD negative | High efficiency per cell; not driven by biomass accumulation |
+| Factor 3 | Proteomics-only | Post-translational regulatory axis decoupled from transcription |
+| Factor 4 | Transcriptomics-only | Transcriptional program not yet reflected in protein or metabolite levels |
+| Factor 5 | Titre and qP strongly negative | Pure metabolic suppressor acting on secretory machinery |
+
+### Querying MOFA Results
+
+::: {.query-box}
+Which genes have the highest positive MOFA Factor 1 weight in Study 1?
+:::
+
+::: {.query-box}
+Show proteins with MOFA Factor 1 weight above 0.3.
+:::
+
+::: {.query-box}
+Which metabolites contribute most to Factor 5? What pathways are enriched in those metabolites?
+:::
+
+::: {.query-box}
+Show per-sample MOFA Factor 1 scores for all Study 1 Nivo samples and overlay with qP values.
+:::
+
+::: {.query-box}
+Show genes that are consistently upregulated in high producers (≥7/10 cohorts), members of a pro-productivity WGCNA network, AND have positive MOFA Factor 1 weight. This is the triple-overlap pro-productivity shortlist.
+:::
+
+### How to Interpret MOFA Results
+
+| Output column | Source edge property | Meaning |
+|---|---|---|
+| `mofa_weight` | `gene_contributes_to_factor.mofa_weight` | MOFA loading weight. Positive = co-varies positively with factor; negative = inversely. Typical range: −1 to +1. |
+| `entity_type` | Same edge | `gene`, `protein`, or `metabolite` — which omics layer this feature belongs to |
+| `correlation` | `factor_correlated_with_phenotype.correlation` | Spearman ρ between factor scores and phenotype values across samples |
+| `direction` | Same edge | `positive` / `negative` — whether high factor scores associate with high or low phenotype |
+| `mofa_score` | `has_mofa_score.mofa_score` | Per-sample factor loading score (typically −5 to +5) |
+
+::: {.callout-important}
+**Factor 1 is the most actionable.** Genes with high positive Factor 1 weights are pro-productivity candidates for overexpression. Genes with high negative weights are anti-productivity candidates for knockout.
+:::
+
+---
+
+## E · Pathway & Functional Enrichment {#sec-pathways}
+
+### What is Pathway Enrichment?
+
+Pathway enrichment analysis tests whether a set of genes or metabolites contains more members of a given biological pathway than expected by chance. Results are **pre-computed and stored in the KG** as edges from pathway nodes to cohort, network, or factor nodes — you query the results, not run the analysis.
+
+| Method | Input | What it detects |
+|---|---|---|
+| **GSEA** (Gene Set Enrichment Analysis) | Ranked gene list (by log2FC or MOFA weight) | Coordinated shifts across the full ranked list |
+| **ORA** (Over-Representation Analysis) | Binary DEG or module member list | Pathways with more hits than expected by chance |
+
+Both are applied to DEG cohorts, WGCNA modules, and MOFA factors. Databases: **KEGG Pathways** and **Gene Ontology** (BP, MF, CC).
+
+### Querying Pathway Enrichment
+
+**On DEG cohorts:**
+
+::: {.query-box}
+Which KEGG pathways are enriched (GSEA) in cohort Nivo_study1_all_high_vs_Nivo_study1_all_low?
+:::
+
+::: {.query-box}
+Show GO Biological Process terms enriched in downregulated genes of C144 high vs. low producers.
+:::
+
+**On WGCNA modules:**
+
+::: {.query-box}
+What KEGG pathways are enriched in gene network network_2_gene?
+:::
+
+::: {.query-box}
+Show GO terms enriched in the anti-productivity gene network network_18_gene.
+:::
+
+**On MOFA factors:**
+
+::: {.query-box}
+Which pathways are enriched in the top-weighted genes for MOFA Factor 1?
+:::
+
+::: {.query-box}
+Show KEGG pathway enrichment for MOFA Factor 5, separating positive and negative weight metabolites.
+:::
+
+**Cross-molecule comparison:**
+
+::: {.query-box}
+Compare enriched KEGG pathways between Nivo and C144 high vs. low producer cohorts. Which are shared and which are molecule-specific?
+:::
+
+### How to Interpret Enrichment Results
+
+| Output column | Source edge property | Meaning |
+|---|---|---|
+| `enrichment_score` | `kegg_pathway_enriched_in.enrichment_score` | NES for GSEA; fold-enrichment for ORA. Positive = enriched in upregulated / positive-weight genes. |
+| `padj` | Same edge | BH-corrected p-value. Use < 0.05. |
+| `overlap` | Same edge | Fraction of pathway genes in the input set. Higher = more pathway coverage. |
+| `analysis_type` | Same edge | `GSEA`, `ORA_upregulated`, `ORA_downregulated`, `ORA_Negative` |
+| `lead_genes` | Same edge | Gene symbols driving the enrichment signal (GSEA leading edge or ORA hits) |
+| `sampling_type` | Metabolomics edges only | `pellet` (intracellular) or `supernatant` (extracellular) |
+| `source_database` | `go_term_enriched_in` | `GO_BP`, `GO_MF`, or `GO_CC` |
+
+**Key biological themes across all analyses:**
+
+| Direction | Pathway | Source |
+|---|---|---|
+| Pro-productivity | Protein processing in ER | MOFA F1 GSEA (NES +3.3 ★★★) |
+| Pro-productivity | Cell adhesion molecules | MOFA F1 GSEA (NES +3.1 ★★★) |
+| Pro-productivity | Lysosome | MOFA F1 GSEA (NES +3.0 ★★★) |
+| Anti-productivity | Cell cycle | MOFA F1 GSEA (NES −3.2 ★★★) |
+| Anti-productivity | DNA replication | MOFA F1 GSEA (NES −3.0 ★★★) |
+| Anti-productivity | Homologous recombination | MOFA F1 GSEA (NES −2.9 ★★★) |
+
+### KEGG Metabolic Network Traversal
+
+The KG also stores the full KEGG metabolic network, enabling mechanistic gene-to-reaction queries:
+
+::: {.query-box}
+Which KEGG pathway does gene LDHA belong to?
+:::
+
+::: {.query-box}
+Find all genes in the glycolysis KEGG pathway that are differentially expressed in high vs. low Nivo producers.
+:::
+
+::: {.query-box}
+Trace LDHA to its enzymatic activity and the metabolic reactions it catalyses.
+:::
+
+---
+
+## F · Transcription Factor Analysis {#sec-tf}
+
+### What is TF Enrichment?
+
+Transcription factor (TF) enrichment identifies upstream regulators whose target genes are over-represented in a DEG set or WGCNA module. It answers: *which TFs are driving the gene expression changes we observe in high producers?*
+
+The analysis uses **gseapy (enrich)** against the **ChEA 2022** database of curated TF–target relationships (from ChIP-seq experiments). Results are stored as edges from TF Gene nodes to Cohort or Network nodes.
+
+| Edge type | Meaning |
+|---|---|
+| `tf_regulates_cohort_degs` | TF whose targets are enriched in a cohort's DEG set |
+| `tf_regulates_network_genes` | TF whose targets are enriched in a WGCNA module's gene set |
+
+Available for: **Study 1 cohorts** and **WGCNA gene modules**.
+
+### Querying TF Results
+
+::: {.query-box}
+Which transcription factors regulate genes upregulated in cohort Nivo_study1_all_high_vs_Nivo_study1_all_low?
+:::
+
+::: {.query-box}
+Show TFs with padj < 0.01 whose targets are enriched among upregulated DEGs in C144 high producers.
+:::
+
+::: {.query-box}
+Which TFs regulate genes in pro-productivity WGCNA network network_2_gene?
+:::
+
+::: {.query-box}
+What TFs control the anti-productivity gene network network_18_gene?
+:::
+
+::: {.query-box}
+Trace gene HSPA5 upstream: what transcription factors regulate it in high-producer cohorts?
+:::
+
+::: {.query-box}
+Which TFs have the broadest target gene scope across all pro-productivity cohorts in Study 1? Identify master regulators.
+:::
+
+### How to Interpret TF Results
+
+| Output column | Source edge property | Meaning |
+|---|---|---|
+| `tf_symbol` | `tf_regulates_cohort_degs.tf_symbol` | Standardised gene symbol of the TF (e.g., `E2F4`, `NFE2L2`) |
+| `direction` | Same edge | `UP` = TF targets enriched in upregulated DEGs; `DOWN` = in downregulated DEGs |
+| `padj` | Same edge | BH-corrected p-value for TF enrichment significance |
+| `overlap` | Same edge | Fraction of TF targets in the DEG set |
+| `target_genes` | Same edge | Semicolon-delimited list of TF target gene symbols in the overlap |
+| `tf_term_original` | Same edge | Full ChEA term (e.g., `E2F4 20460467 ChIP-Seq MCF7 Human`) — shows source organism and assay |
+| `tf_database` | Same edge | Always `ChEA_2022` in this KG |
+
+**Key master regulators identified in Study 1:**
+
+| TF | Module association | padj | Biological role |
+|---|---|---|---|
+| **E2F4** | Anti-productivity (network_18_gene) | 3.7×10⁻¹²² | Cell cycle / DNA replication master regulator |
+| FOXM1 | Anti-productivity | Significant | Mitotic transcription factor |
+| E2F1 | Anti-productivity | Significant | Cell cycle entry |
+| MYC | Anti-productivity | Significant | Broad proliferation driver |
+| NFE2L2 (NRF2) | Pro-productivity (network_2_gene) | Significant | Oxidative stress / UPR response |
+| FOXO1 | Pro-productivity | Significant | Metabolism and stress resistance |
+| PPARA | Pro-productivity | Significant | Lipid metabolism and ER function |
+| SMARCA4 | Pro-productivity | Significant | Chromatin remodelling |
+
+::: {.query-box}
+Is NFE2L2 itself differentially expressed in Nivo high vs. low producers in Study 1?
+:::
+
+::: {.query-box}
+Does E2F4 have a significant MOFA Factor 1 weight?
+:::
