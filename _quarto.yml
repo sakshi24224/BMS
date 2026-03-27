@@ -22,6 +22,8 @@ book:
     background: "#18103a"
     foreground: "#ffffff"
     search: true
+    logo  : assets/Screenshot 2026-03-27 at 2.20.13 PM.png
+    logo-alt: "Elucidata"
 
   page-footer:
     left: "BMS CHO Cell Productivity Knowledge Graph — User Manual"
