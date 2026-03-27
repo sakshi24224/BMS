@@ -3,11 +3,7 @@ title: "Welcome"
 ---
 
 ```{=html}
-<div class="partner-logos">
-  <img src="assets/elucidata-logo.png" alt="Elucidata" class="logo-elucidata">
-  <span class="logo-divider"></span>
-  <img src="assets/bms-logo.png" alt="Bristol Myers Squibb" class="logo-bms">
-</div>
+
 
 <div class="hero-banner">
   <p class="hero-title">BMS CHO Cell Productivity<br>Knowledge Graph</p>
