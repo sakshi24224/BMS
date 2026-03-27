@@ -43,9 +43,9 @@ The most important check — does the **direction** of the BMS signal agree with
 
 | BMS signal | Published effect | Verdict |
 |---|---|---|
-| Gene upregulated in high producers | OE → ↑ qP | ✅ Concordant — strong OE candidate |
-| Gene downregulated in high producers | KO → ↑ titer | ✅ Concordant — strong KO candidate |
-| Gene upregulated in high producers | OE → ↓ qP | ⚠️ Discordant — investigate context |
+| Gene upregulated in high producers | OE → ↑ qP |  Concordant — strong OE candidate |
+| Gene downregulated in high producers | KO → ↑ titer |  Concordant — strong KO candidate |
+| Gene upregulated in high producers | OE → ↓ qP | Discordant — investigate context |
 | Gene not DE in BMS data | OE → ↑ qP | 🔍 BMS data silent — check WGCNA and MOFA layers |
 
 ::: {.query-box}

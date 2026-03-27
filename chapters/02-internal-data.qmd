@@ -293,16 +293,7 @@ Compare enriched KEGG pathways between Nivo and C144 high vs. low producer cohor
 | `sampling_type` | Metabolomics edges only | `pellet` (intracellular) or `supernatant` (extracellular) |
 | `source_database` | `go_term_enriched_in` | `GO_BP`, `GO_MF`, or `GO_CC` |
 
-**Key biological themes across all analyses:**
 
-| Direction | Pathway | Source |
-|---|---|---|
-| Pro-productivity | Protein processing in ER | MOFA F1 GSEA (NES +3.3 ★★★) |
-| Pro-productivity | Cell adhesion molecules | MOFA F1 GSEA (NES +3.1 ★★★) |
-| Pro-productivity | Lysosome | MOFA F1 GSEA (NES +3.0 ★★★) |
-| Anti-productivity | Cell cycle | MOFA F1 GSEA (NES −3.2 ★★★) |
-| Anti-productivity | DNA replication | MOFA F1 GSEA (NES −3.0 ★★★) |
-| Anti-productivity | Homologous recombination | MOFA F1 GSEA (NES −2.9 ★★★) |
 
 ### KEGG Metabolic Network Traversal
 
