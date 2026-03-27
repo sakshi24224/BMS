@@ -25,7 +25,7 @@ book:
 
   page-footer:
     left: "BMS CHO Cell Productivity Knowledge Graph — User Manual"
-    center: "KG Version 3 &nbsp;·&nbsp; Elucidata × BMS"
+    center: "KG Version 3 &nbsp;·&nbsp; Polly by Elucidata | © Copyright 2024 | Elucidata.io"
     right: "Confidential"
     background: "#18103a"
     foreground: "#a78bfa"
