@@ -330,8 +330,8 @@ img { max-width: 100%; height: auto; }
   span[class*="chapter"] { color: #fb923c !important; }
   .sidebar-item-container a {
     display: flex;
-    align-items: baseline;
-    gap: .3em;
+    align-items: center;
+    gap: .35em;
     &::before { color: #fb923c !important; font-weight: 700; }
   }
   ol li::marker,
