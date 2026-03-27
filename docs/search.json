@@ -24,7 +24,7 @@
     "href": "index.html#how-to-use-this-manual",
     "title": "BMS CHO Cell Productivity Knowledge Graph",
     "section": "0.2 How to Use this Manual",
-    "text": "0.2 How to Use this Manual\n\n\n\n\n\n\n\nIf you want to\nGo to\n\n\n\n\nLog in and navigate the interface\nSection 2.1\n\n\nUnderstand what the KG contains before querying\nSection 3.1\n\n\nBrowse BMS omics data and run DEG / WGCNA / MOFA queries\nSection 4.1\n\n\nLook up what published studies say about a gene\nSection 5.1\n\n\nCheck whether BMS data agrees with published findings\nSection 6.1\n\n\nTest a specific biological hypothesis\nSection 7.1\n\n\nShortlist high-confidence engineering targets\nSection 8.1\n\n\nSearch, export, or generate plots\nSection 9.1",
+    "text": "0.2 How to Use this Manual\n\n\n\n\n\n\n\nIf you want to\nGo to\n\n\n\n\nLog in and navigate the interface\nSection 2.1\n\n\nUnderstand what the KG contains before querying\nSection 3.1\n\n\nBrowse BMS omics data and run DEG / WGCNA / MOFA queries\nSection 4.1\n\n\nLook up what published studies say about a gene\nSection 5.1\n\n\nCheck whether BMS data agrees with published findings\nSection 6.1\n\n\nTest a specific biological hypothesis\nSection 7.1\n\n\nShortlist high-confidence engineering targets\n?sec-targets\n\n\nSearch, export, or generate plots\nSection 8.1",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome</span>"
     ]
@@ -480,213 +480,133 @@
     ]
   },
   {
-    "objectID": "chapters/06-target-prioritization.html",
-    "href": "chapters/06-target-prioritization.html",
-    "title": "8  Target Prioritisation",
+    "objectID": "chapters/06-utilities.html",
+    "href": "chapters/06-utilities.html",
+    "title": "8  KG Utilities & Navigation",
     "section": "",
-    "text": "8.1 Overview\nThis chapter is the deliverable section — where multi-layer evidence converges into a ranked shortlist of overexpression (OE) and knockout (KO) candidates for experimental validation.",
+    "text": "8.1 Overview\nThis chapter covers the practical mechanics of navigating the KG: searching by identifier, cross-referencing databases, filtering results, exporting data, and generating visualisations.",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Target Prioritisation</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>KG Utilities & Navigation</span>"
     ]
   },
   {
-    "objectID": "chapters/06-target-prioritization.html#sec-targets",
-    "href": "chapters/06-target-prioritization.html#sec-targets",
-    "title": "8  Target Prioritisation",
-    "section": "",
-    "text": "Warning\n\n\n\nTo Revisit: The overexpression and knockout candidate scoring criteria below reflect the current framework. These criteria — particularly the evidence-weighting and ranking methodology — will be updated once the final scoring framework is agreed in the team review. Check with Arjun / Yogesh before using these criteria for final experimental planning.",
+    "objectID": "chapters/06-utilities.html#searching-by-identifier",
+    "href": "chapters/06-utilities.html#searching-by-identifier",
+    "title": "8  KG Utilities & Navigation",
+    "section": "8.2 Searching by Identifier",
+    "text": "8.2 Searching by Identifier\n\n\n\n\n\n\n\nEntity\nSupported identifiers\n\n\n\n\nGene\nGene symbol (e.g., HSPA5), NCBI Entrez Gene ID (e.g., 100752894)\n\n\nProtein\nUniProt accession (e.g., P11021), RefSeq accession (e.g., XP_027251020.1)\n\n\nMetabolite\nChEBI ID (e.g., CHEBI:16651), metabolite name, KEGG Compound C-number, HMDB ID\n\n\nPathway\nKEGG pathway ID (e.g., cge04141), pathway name\n\n\nGO Term\nGO term ID (e.g., GO:0006457), GO term name\n\n\n\n\nFind gene HSPA5. Show its NCBI Gene ID, UniProt accession of its encoded protein, and all associated KEGG pathways.\n\n\nSearch for metabolite lactate using its ChEBI ID CHEBI:16651. Show all WGCNA networks it belongs to and its correlation with qP.",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Target Prioritisation</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>KG Utilities & Navigation</span>"
     ]
   },
   {
-    "objectID": "chapters/06-target-prioritization.html#what-makes-a-high-confidence-candidate",
-    "href": "chapters/06-target-prioritization.html#what-makes-a-high-confidence-candidate",
-    "title": "8  Target Prioritisation",
-    "section": "8.2 What Makes a High-Confidence Candidate?",
-    "text": "8.2 What Makes a High-Confidence Candidate?\nThe KG scores candidates across six dimensions:\n1Direction and Strength of Association — Spearman correlation of gene/protein/metabolite abundance with qP, titre, IVCD (correlation_factor on the positive/negative edge)\n2Multi-Omics Signal — Concordant DE at both RNA and protein level (directional consistency: mRNA up and protein up, or both down)\n3Consensus Signal — Agreement across DEG, WGCNA module membership, and MOFA Factor loading\n4Pathway / Functional Role — Target involved in productivity-relevant biology (secretory pathway, ER stress, metabolic flux)\n5Impact on Growth and Titer — In-silico GEM perturbation predicting effects on secretion with minimal growth penalty (in progress — not yet in KG)\n6Causal Mining Evidence — Publication-evidence score from curated genetic manipulation studies (causal_weight on literature edges)",
+    "objectID": "chapters/06-utilities.html#cross-referencing-identifiers",
+    "href": "chapters/06-utilities.html#cross-referencing-identifiers",
+    "title": "8  KG Utilities & Navigation",
+    "section": "8.3 Cross-Referencing Identifiers",
+    "text": "8.3 Cross-Referencing Identifiers\n\nWhat is the UniProt accession for the protein encoded by HSPA5?\n\n\nWhat CHO gene symbol corresponds to NCBI Gene ID 100752894?\n\n\nWhat is the KEGG ortholog (K-number) for gene LDHA in CHO cells?",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Target Prioritisation</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>KG Utilities & Navigation</span>"
     ]
   },
   {
-    "objectID": "chapters/06-target-prioritization.html#overexpression-candidates",
-    "href": "chapters/06-target-prioritization.html#overexpression-candidates",
-    "title": "8  Target Prioritisation",
-    "section": "8.3 Overexpression Candidates",
-    "text": "8.3 Overexpression Candidates\nGenes expected to increase productivity when expressed at higher levels.\nCriteria:\n\nUpregulated in high producers in ≥7/10 BMS Study 1 cohorts\nPositive Spearman correlation with qP (r &gt; 0.5)\nPositive MOFA Factor 1 weight\nMember of a pro-productivity WGCNA network\nPublished OE evidence showing positive productivity effect (where available)\n\n\nIdentify overexpression candidates: genes upregulated in high producers across ≥7/10 Study 1 cohorts, with positive MOFA Factor 1 weight and positive qP correlation &gt; 0.5.\n\n\nRank overexpression candidates by number of supporting high-producer cohorts, then by abs_log2fc descending.\n\n\nExample: HSPA5\nDEG WGCNA MOFA Literature\n\n\n\n\n\n\n\nEvidence layer\nValue\n\n\n\n\nDEG consistency\nUp in 7/10 cohorts\n\n\nSpearman qP\nr = +0.52\n\n\nSpearman titre\nr = +0.38\n\n\nMOFA Factor 1 weight\n+0.392\n\n\nWGCNA network\nnetwork_2_gene (kME = 0.660); ER processing / UPR enriched\n\n\nTF regulators\nNFE2L2 (NRF2), FOXO1, PPARA, FOXA1\n\n\nLiterature\nPMIDs 32624757, 24081924, 1373378 — GRP78/BiP OE → ↑ titre, ↑ qP\n\n\nRecommendation\n▲ OVEREXPRESS",
+    "objectID": "chapters/06-utilities.html#finding-orthologs",
+    "href": "chapters/06-utilities.html#finding-orthologs",
+    "title": "8  KG Utilities & Navigation",
+    "section": "8.4 Finding Orthologs",
+    "text": "8.4 Finding Orthologs\nCHO genes are mapped to human, mouse, and rat orthologs via the human_id, mouse_id, and rat_id fields on Gene nodes. KEGG Ortholog (assigned_to) edges provide functional ortholog groupings.\n\nFind the human ortholog of CHO gene LOC100760815. What is its NCBI Gene ID?\n\n\nWhich human genes are orthologs of the top 10 hub genes in WGCNA network_2_gene?",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Target Prioritisation</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>KG Utilities & Navigation</span>"
     ]
   },
   {
-    "objectID": "chapters/06-target-prioritization.html#knockout-candidates",
-    "href": "chapters/06-target-prioritization.html#knockout-candidates",
-    "title": "8  Target Prioritisation",
-    "section": "8.4 Knockout Candidates",
-    "text": "8.4 Knockout Candidates\nGenes expected to relieve a productivity bottleneck when eliminated.\nCriteria:\n\nDownregulated in high producers in ≥7/10 cohorts (or upregulated, reflecting a gene that suppresses productivity)\nNegative Spearman correlation with qP (r &lt; −0.5)\nNegative MOFA Factor 1 weight\nMember of an anti-productivity WGCNA network\nPublished KO evidence showing positive productivity or quality effect (where available)\n\n\nIdentify knockout candidates: genes with negative MOFA Factor 1 weight, downregulated in ≥7/10 high-producer cohorts, and negative Spearman qP correlation.\n\n\nExample: ST14\nDEG WGCNA MOFA Literature\n\n\n\n\n\n\n\nEvidence layer\nValue\n\n\n\n\nDEG consistency\nDown in 10/10 cohorts\n\n\nSpearman qP\nr = −0.51\n\n\nSpearman titre\nr = −0.51\n\n\nMOFA Factor 1 weight\n−0.303\n\n\nWGCNA network\nnetwork_18_gene (kME = 0.595); Cell cycle / DNA replication enriched\n\n\nTF regulators\nE2F4 (padj = 3.7×10⁻¹²²), FOXM1, E2F1, MYC\n\n\nLiterature\nPMID 29777593 — ST14 KO → ↓ fragmentation, ↑ product purity\n\n\nRecommendation\n▼ KNOCKOUT",
+    "objectID": "chapters/06-utilities.html#filtering-results",
+    "href": "chapters/06-utilities.html#filtering-results",
+    "title": "8  KG Utilities & Navigation",
+    "section": "8.5 Filtering Results",
+    "text": "8.5 Filtering Results\n\nBy Study Source\n\nShow DEG results for HSPA5 from BMS internal studies only (source = ‘bms’).\n\n\nShow only public omics datasets with DEG results for KCTD14.\n\n\n\nBy Molecule\n\nFilter WGCNA network enrichment results to Nivo samples only (sample_source = ‘Nivo_study1’).\n\n\nShow MOFA Factor 1 weights for genes, using only C144 Study 1 samples (sample_source = ‘C144_study1’).\n\n\n\nStatistical Thresholds\n\n\n\nThreshold\nvalue\nEdge property\n\n\n\n\nDEG adjusted p-value\n&lt; 0.05\nadj_pvalue\n\n\nDEG absolute log₂FC\n&gt; 1\nabs_log2fc\n\n\nSpearman correlation\n|r| &gt; 0.5\ncorrelation_factor\n\n\nMOFA weight (top features)\n&gt; 80th percentile\nmofa_weight\n\n\nWGCNA module membership\nkME &gt; 0.5\nnetwork_membership\n\n\nTF enrichment\npadj &lt; 0.05\npadj\n\n\nPathway enrichment\npadj &lt; 0.05\npadj",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Target Prioritisation</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>KG Utilities & Navigation</span>"
     ]
   },
   {
-    "objectID": "chapters/06-target-prioritization.html#multi-omics-concordance-filter",
-    "href": "chapters/06-target-prioritization.html#multi-omics-concordance-filter",
-    "title": "8  Target Prioritisation",
-    "section": "8.5 Multi-Omics Concordance Filter",
-    "text": "8.5 Multi-Omics Concordance Filter\n\nFrom the 63-gene shortlist, which have concordant RNA–protein regulation — mRNA up and protein up for OE candidates, or mRNA down and protein down for KO candidates?",
+    "objectID": "chapters/06-utilities.html#plotting-routines",
+    "href": "chapters/06-utilities.html#plotting-routines",
+    "title": "8  KG Utilities & Navigation",
+    "section": "8.6 Plotting Routines",
+    "text": "8.6 Plotting Routines\nThe KG can generate a variety of visualisations directly from query results. Ask Co-Scientist to produce plots alongside tabular output.\n\nWhat kinds of plots can you generate for KG query results?\n\nPlots are generated directly by the Co-Scientist from KG data. The following types are available, each backed by specific KG edge properties:\n\n\n\n\n\n\n\n\nPlot type\nKG data source\nWhen to use\n\n\n\n\nKG subgraph / network view\nAny edge type (e.g., upregulated, positive, gene_part_of, metabolic chains gene→kegg_ortholog→kegg_enzyme→kegg_reaction→metabolite)\nVisualise relationships around a specific gene, protein, or metabolite; trace metabolic paths\n\n\nVolcano / scatter plot\nupregulated / downregulated edges: x = abs_log2fc, y = -log10(pvalue), colour by edge type\nDEG/DAA — identify significant differentially expressed features per cohort\n\n\nExpression heatmap\ngene_expressed_in.abs_log2_tpm, protein_abundant_in.abs_log2_abundance, metabolite_abundant_in.abs_log2_abundance; faceted by harvest_day, clone_id, molecule\nCompare expression profiles across samples, clones, or molecules\n\n\nEnrichment bar / lollipop\ngo_term_enriched_in and kegg_pathway_enriched_in: y = -log10(padj)\nTop enriched GO terms or KEGG pathways per cohort, network, or factor\n\n\nEnrichment dot / bubble plot\nSame enrichment edges: y = term, x = enrichment_score, size = overlap, colour = -log10(padj)\nCompare enrichment across multiple terms simultaneously\n\n\nWGCNA module–phenotype bars\ngene/protein/metabolite_network_correlated_with_phenotype: pearson_correlation with fdr, coloured by direction\nWhich modules are pro- or anti-productivity\n\n\nMOFA factor correlation bars\nfactor_correlated_with_phenotype.correlation, coloured by direction\nWhich MOFA factors correlate with qP, titre, IVCD\n\n\nMOFA loadings plot\nmofa_weight from gene/protein/metabolite_contributes_to_factor\nTop features driving each factor, per omics layer\n\n\nPathway treemap / sunburst\npathway.top_level_mapping_broad and top_level_mapping_subcategory\nHierarchical breakdown of enriched pathways by KEGG BRITE category\n\n\nBioprocess time-series\nmeasured_in.bms_bioprocess_parameter_value over Sample.harvest_day, faceted by molecule or qp_group\nqP, titre, lactate, glucose trends across culture days\n\n\nCohort summary stacked bar\nCount of upregulated/downregulated entities per cohort; or top enriched pathway by padj\nOverview of DE landscape across multiple cohorts\n\n\n\n\nShow a scatter plot of HSPA5 expression vs. qP across all Study 1 samples.\n\n\nGenerate a bar chart of GSEA enrichment scores for the top 10 enriched KEGG pathways in cohort Nivo_study1_all_high_vs_Nivo_study1_all_low.\n\n\nShow a heatmap of the top 20 upregulated genes in high vs. low Nivo producers across all Study 1 samples.\n\n\n\n\n\n\n\nNote\n\n\n\nPlot availability depends on the Python backend connected to the KG session. Network plots, heatmaps, and scatter plots are consistently available. For specific plot types, ask Co-Scientist first — it will confirm what is currently supported.",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Target Prioritisation</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>KG Utilities & Navigation</span>"
     ]
   },
   {
-    "objectID": "chapters/06-target-prioritization.html#molecule-specific-vs.-shared-targets",
-    "href": "chapters/06-target-prioritization.html#molecule-specific-vs.-shared-targets",
-    "title": "8  Target Prioritisation",
-    "section": "8.6 Molecule-Specific vs. Shared Targets",
-    "text": "8.6 Molecule-Specific vs. Shared Targets\n\nCompare overexpression candidates between Nivo and C144. Which targets are shared across both molecules, and which are molecule-specific?\n\nShared targets are preferred for cell-line-wide engineering strategies. Molecule-specific targets may address product-specific quality or expression challenges.",
+    "objectID": "chapters/06-utilities.html#exporting-query-results",
+    "href": "chapters/06-utilities.html#exporting-query-results",
+    "title": "8  KG Utilities & Navigation",
+    "section": "8.7 Exporting Query Results",
+    "text": "8.7 Exporting Query Results\nResults can be exported from the session toolbar after any query returns a table or plot.\n\nExporting Tables\n\nExport all WGCNA network_2_gene members with network_membership, gs_qp, gs_titre, and is_hub as a CSV.\n\n\nExport the top 50 genes by positive MOFA Factor 1 weight across transcriptomics, proteomics, and metabolomics layers.\n\n\n\nExporting Plots\nAfter a plot is generated in the chat:\n1Right-click the plot image in the chat and select Save image as…, or\n2Use the export icon in the session toolbar to download the full session including all plots as a PDF.",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Target Prioritisation</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>KG Utilities & Navigation</span>"
     ]
   },
   {
-    "objectID": "chapters/06-target-prioritization.html#exporting-the-shortlist",
-    "href": "chapters/06-target-prioritization.html#exporting-the-shortlist",
-    "title": "8  Target Prioritisation",
-    "section": "8.7 Exporting the Shortlist",
-    "text": "8.7 Exporting the Shortlist\n\nExport the top 20 overexpression candidates as a ranked table with columns: gene symbol, DEG cohort count, Spearman qP, MOFA Factor 1 weight, WGCNA network, literature PMID, causal_weight.",
+    "objectID": "chapters/06-utilities.html#tips-for-effective-queries",
+    "href": "chapters/06-utilities.html#tips-for-effective-queries",
+    "title": "8  KG Utilities & Navigation",
+    "section": "8.8 Tips for Effective Queries",
+    "text": "8.8 Tips for Effective Queries\n\nBe specific about entity type — say “gene”, “protein”, or “metabolite” explicitly\nName the cohort — include molecule, clone, and study when relevant\nState directionality — “upregulated”, “positive MOFA weight”, “negatively correlated with qP”\nInclude exact thresholds — numbers rather than “strong” or “significant”\nBuild progressively — start broad, then add constraints to narrow results\nReference modules and factors by name — network_2_gene, Factor1, not “the pro-productivity module”\n\n\n\n\n\n\n\nTip\n\n\n\nIf results feel off-topic, start a New Session (pencil icon, top right) to clear accumulated context, then rephrase your query with more specificity.",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Target Prioritisation</span>"
-    ]
-  },
-  {
-    "objectID": "chapters/07-utilities.html",
-    "href": "chapters/07-utilities.html",
-    "title": "9  KG Utilities & Navigation",
-    "section": "",
-    "text": "9.1 Overview\nThis chapter covers the practical mechanics of navigating the KG: searching by identifier, cross-referencing databases, filtering results, exporting data, and generating visualisations.",
-    "crumbs": [
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>KG Utilities & Navigation</span>"
-    ]
-  },
-  {
-    "objectID": "chapters/07-utilities.html#searching-by-identifier",
-    "href": "chapters/07-utilities.html#searching-by-identifier",
-    "title": "9  KG Utilities & Navigation",
-    "section": "9.2 Searching by Identifier",
-    "text": "9.2 Searching by Identifier\n\n\n\n\n\n\n\nEntity\nSupported identifiers\n\n\n\n\nGene\nGene symbol (e.g., HSPA5), NCBI Entrez Gene ID (e.g., 100752894)\n\n\nProtein\nUniProt accession (e.g., P11021), RefSeq accession (e.g., XP_027251020.1)\n\n\nMetabolite\nChEBI ID (e.g., CHEBI:16651), metabolite name, KEGG Compound C-number, HMDB ID\n\n\nPathway\nKEGG pathway ID (e.g., cge04141), pathway name\n\n\nGO Term\nGO term ID (e.g., GO:0006457), GO term name\n\n\n\n\nFind gene HSPA5. Show its NCBI Gene ID, UniProt accession of its encoded protein, and all associated KEGG pathways.\n\n\nSearch for metabolite lactate using its ChEBI ID CHEBI:16651. Show all WGCNA networks it belongs to and its correlation with qP.",
-    "crumbs": [
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>KG Utilities & Navigation</span>"
-    ]
-  },
-  {
-    "objectID": "chapters/07-utilities.html#cross-referencing-identifiers",
-    "href": "chapters/07-utilities.html#cross-referencing-identifiers",
-    "title": "9  KG Utilities & Navigation",
-    "section": "9.3 Cross-Referencing Identifiers",
-    "text": "9.3 Cross-Referencing Identifiers\n\nWhat is the UniProt accession for the protein encoded by HSPA5?\n\n\nWhat CHO gene symbol corresponds to NCBI Gene ID 100752894?\n\n\nWhat is the KEGG ortholog (K-number) for gene LDHA in CHO cells?",
-    "crumbs": [
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>KG Utilities & Navigation</span>"
-    ]
-  },
-  {
-    "objectID": "chapters/07-utilities.html#finding-orthologs",
-    "href": "chapters/07-utilities.html#finding-orthologs",
-    "title": "9  KG Utilities & Navigation",
-    "section": "9.4 Finding Orthologs",
-    "text": "9.4 Finding Orthologs\nCHO genes are mapped to human, mouse, and rat orthologs via the human_id, mouse_id, and rat_id fields on Gene nodes. KEGG Ortholog (assigned_to) edges provide functional ortholog groupings.\n\nFind the human ortholog of CHO gene LOC100760815. What is its NCBI Gene ID?\n\n\nWhich human genes are orthologs of the top 10 hub genes in WGCNA network_2_gene?",
-    "crumbs": [
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>KG Utilities & Navigation</span>"
-    ]
-  },
-  {
-    "objectID": "chapters/07-utilities.html#filtering-results",
-    "href": "chapters/07-utilities.html#filtering-results",
-    "title": "9  KG Utilities & Navigation",
-    "section": "9.5 Filtering Results",
-    "text": "9.5 Filtering Results\n\nBy Study Source\n\nShow DEG results for HSPA5 from BMS internal studies only (source = ‘bms’).\n\n\nShow only public omics datasets with DEG results for KCTD14.\n\n\n\nBy Molecule\n\nFilter WGCNA network enrichment results to Nivo samples only (sample_source = ‘Nivo_study1’).\n\n\nShow MOFA Factor 1 weights for genes, using only C144 Study 1 samples (sample_source = ‘C144_study1’).\n\n\n\nStatistical Thresholds\n\n\n\nThreshold\nvalue\nEdge property\n\n\n\n\nDEG adjusted p-value\n&lt; 0.05\nadj_pvalue\n\n\nDEG absolute log₂FC\n&gt; 1\nabs_log2fc\n\n\nSpearman correlation\n|r| &gt; 0.5\ncorrelation_factor\n\n\nMOFA weight (top features)\n&gt; 80th percentile\nmofa_weight\n\n\nWGCNA module membership\nkME &gt; 0.5\nnetwork_membership\n\n\nTF enrichment\npadj &lt; 0.05\npadj\n\n\nPathway enrichment\npadj &lt; 0.05\npadj",
-    "crumbs": [
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>KG Utilities & Navigation</span>"
-    ]
-  },
-  {
-    "objectID": "chapters/07-utilities.html#plotting-routines",
-    "href": "chapters/07-utilities.html#plotting-routines",
-    "title": "9  KG Utilities & Navigation",
-    "section": "9.6 Plotting Routines",
-    "text": "9.6 Plotting Routines\nThe KG can generate a variety of visualisations directly from query results. Ask Co-Scientist to produce plots alongside tabular output.\n\nWhat kinds of plots can you generate for KG query results?\n\nPlots are generated directly by the Co-Scientist from KG data. The following types are available, each backed by specific KG edge properties:\n\n\n\n\n\n\n\n\nPlot type\nKG data source\nWhen to use\n\n\n\n\nKG subgraph / network view\nAny edge type (e.g., upregulated, positive, gene_part_of, metabolic chains gene→kegg_ortholog→kegg_enzyme→kegg_reaction→metabolite)\nVisualise relationships around a specific gene, protein, or metabolite; trace metabolic paths\n\n\nVolcano / scatter plot\nupregulated / downregulated edges: x = abs_log2fc, y = -log10(pvalue), colour by edge type\nDEG/DAA — identify significant differentially expressed features per cohort\n\n\nExpression heatmap\ngene_expressed_in.abs_log2_tpm, protein_abundant_in.abs_log2_abundance, metabolite_abundant_in.abs_log2_abundance; faceted by harvest_day, clone_id, molecule\nCompare expression profiles across samples, clones, or molecules\n\n\nEnrichment bar / lollipop\ngo_term_enriched_in and kegg_pathway_enriched_in: y = -log10(padj)\nTop enriched GO terms or KEGG pathways per cohort, network, or factor\n\n\nEnrichment dot / bubble plot\nSame enrichment edges: y = term, x = enrichment_score, size = overlap, colour = -log10(padj)\nCompare enrichment across multiple terms simultaneously\n\n\nWGCNA module–phenotype bars\ngene/protein/metabolite_network_correlated_with_phenotype: pearson_correlation with fdr, coloured by direction\nWhich modules are pro- or anti-productivity\n\n\nMOFA factor correlation bars\nfactor_correlated_with_phenotype.correlation, coloured by direction\nWhich MOFA factors correlate with qP, titre, IVCD\n\n\nMOFA loadings plot\nmofa_weight from gene/protein/metabolite_contributes_to_factor\nTop features driving each factor, per omics layer\n\n\nPathway treemap / sunburst\npathway.top_level_mapping_broad and top_level_mapping_subcategory\nHierarchical breakdown of enriched pathways by KEGG BRITE category\n\n\nBioprocess time-series\nmeasured_in.bms_bioprocess_parameter_value over Sample.harvest_day, faceted by molecule or qp_group\nqP, titre, lactate, glucose trends across culture days\n\n\nCohort summary stacked bar\nCount of upregulated/downregulated entities per cohort; or top enriched pathway by padj\nOverview of DE landscape across multiple cohorts\n\n\n\n\nShow a scatter plot of HSPA5 expression vs. qP across all Study 1 samples.\n\n\nGenerate a bar chart of GSEA enrichment scores for the top 10 enriched KEGG pathways in cohort Nivo_study1_all_high_vs_Nivo_study1_all_low.\n\n\nShow a heatmap of the top 20 upregulated genes in high vs. low Nivo producers across all Study 1 samples.\n\n\n\n\n\n\n\nNote\n\n\n\nPlot availability depends on the Python backend connected to the KG session. Network plots, heatmaps, and scatter plots are consistently available. For specific plot types, ask Co-Scientist first — it will confirm what is currently supported.",
-    "crumbs": [
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>KG Utilities & Navigation</span>"
-    ]
-  },
-  {
-    "objectID": "chapters/07-utilities.html#exporting-query-results",
-    "href": "chapters/07-utilities.html#exporting-query-results",
-    "title": "9  KG Utilities & Navigation",
-    "section": "9.7 Exporting Query Results",
-    "text": "9.7 Exporting Query Results\nResults can be exported from the session toolbar after any query returns a table or plot.\n\nExporting Tables\n\nExport all WGCNA network_2_gene members with network_membership, gs_qp, gs_titre, and is_hub as a CSV.\n\n\nExport the top 50 genes by positive MOFA Factor 1 weight across transcriptomics, proteomics, and metabolomics layers.\n\n\n\nExporting Plots\nAfter a plot is generated in the chat:\n1Right-click the plot image in the chat and select Save image as…, or\n2Use the export icon in the session toolbar to download the full session including all plots as a PDF.",
-    "crumbs": [
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>KG Utilities & Navigation</span>"
-    ]
-  },
-  {
-    "objectID": "chapters/07-utilities.html#tips-for-effective-queries",
-    "href": "chapters/07-utilities.html#tips-for-effective-queries",
-    "title": "9  KG Utilities & Navigation",
-    "section": "9.8 Tips for Effective Queries",
-    "text": "9.8 Tips for Effective Queries\n\nBe specific about entity type — say “gene”, “protein”, or “metabolite” explicitly\nName the cohort — include molecule, clone, and study when relevant\nState directionality — “upregulated”, “positive MOFA weight”, “negatively correlated with qP”\nInclude exact thresholds — numbers rather than “strong” or “significant”\nBuild progressively — start broad, then add constraints to narrow results\nReference modules and factors by name — network_2_gene, Factor1, not “the pro-productivity module”\n\n\n\n\n\n\n\nTip\n\n\n\nIf results feel off-topic, start a New Session (pencil icon, top right) to clear accumulated context, then rephrase your query with more specificity.",
-    "crumbs": [
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>KG Utilities & Navigation</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>KG Utilities & Navigation</span>"
     ]
   },
   {
     "objectID": "chapters/glossary.html",
     "href": "chapters/glossary.html",
-    "title": "10  Glossary",
+    "title": "9  Glossary",
     "section": "",
-    "text": "10.1 BMS Internal Data Terms\nThis glossary is organised into four sections matching the main evidence layers in the KG. Use Ctrl+F / Cmd+F to search for a specific term.",
+    "text": "9.1 BMS Internal Data Terms\nThis glossary is organised into four sections matching the main evidence layers in the KG. Use Ctrl+F / Cmd+F to search for a specific term.",
     "crumbs": [
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Glossary</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Glossary</span>"
     ]
   },
   {
     "objectID": "chapters/glossary.html#bms-internal-data-terms",
     "href": "chapters/glossary.html#bms-internal-data-terms",
-    "title": "10  Glossary",
+    "title": "9  Glossary",
     "section": "",
     "text": "C144\n\nOne of the two BMS antibody molecules for which in-house multi-omics data is available in Study 1 (5 clones; Days 3, 5, 9, 11, 14).\n\nCHO (Chinese Hamster Ovary)\n\nThe cell line used for BMS biopharmaceutical protein production. All BMS in-house data in this KG comes from CHO cells (Cricetulus griseus).\n\nClone\n\nA genetically identical population of cells derived from a single parent cell. Each clone in BMS Studies 1 and 2 produces either a high or low level of the target protein. Clone IDs in the KG follow the format clone8, clone49, clone94, etc.\n\nCohort\n\nA pairwise comparison group used for differential expression or abundance analysis. The KG contains 883 cohorts across five categories (see Section 3.5 for naming conventions).\n\nHigh Producer / Low Producer\n\nClassification of a clone based on its specific productivity (qP). High-producer clones secrete more product per cell per unit time. This classification is stored on the qp_group field of Sample nodes.\n\nIVCD (Integral Viable Cell Density)\n\nThe area under the viable cell density–time curve during a culture run. Measures cumulative biomass produced. Unit: cells × day / mL. Stored as a bioprocess Parameter node; correlations on positive/negative edges.\n\nMolecule\n\nThe therapeutic protein being produced — either Nivo (nivolumab, an anti-PD-1 mAb) or C144 in Study 1; Milvaxin, COVID2, Nivo, and FXIaR in Study 2.\n\nNivo (Nivolumab)\n\nAnti-PD-1 monoclonal antibody. One of the two BMS molecules with full multi-omics data in Study 1.\n\nqP (Specific Productivity)\n\nThe rate of product secretion per cell per unit time. Units: pg/cell/day. The primary productivity phenotype. Stored as a bioprocess Parameter node; Spearman correlations stored on positive/negative edges from genes/proteins/metabolites.\n\nSample\n\nA single biological replicate — one clone × one harvest day × one study (e.g., Nivo_clone8_day5_study1). The leaf-level experimental unit in the KG.\n\nStudy 1\n\nBMS in-house multi-omics study with transcriptomics, proteomics, and metabolomics. Nivo (3 clones) and C144 (5 clones) at Days 3, 5, 9, 11, 14.\n\nStudy 2\n\nBMS in-house proteomics-only study. Milvaxin, COVID2, Nivo, and FXIaR at Days 5, 7, 9, 11.\n\nTitre\n\nTotal product concentration in the culture supernatant at harvest (mg/L). Reflects both qP and viable cell density over time. Stored as a bioprocess Parameter node.",
     "crumbs": [
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Glossary</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Glossary</span>"
     ]
   },
   {
     "objectID": "chapters/glossary.html#bioinformatics-analysis-terms",
     "href": "chapters/glossary.html#bioinformatics-analysis-terms",
-    "title": "10  Glossary",
-    "section": "10.2 Bioinformatics & Analysis Terms",
-    "text": "10.2 Bioinformatics & Analysis Terms\n\nadj_pvalue (Adjusted P-value)\n\nP-value corrected for multiple testing using the Benjamini-Hochberg (BH) method. Values below 0.05 are considered statistically significant. Stored on DEG edges (upregulated, downregulated), enrichment edges, and TF edges.\n\nDAA (Differential Abundance Analysis)\n\nStatistical analysis identifying proteins or metabolites that differ significantly in abundance between two conditions. Method: T-test with time as covariate. Stored as upregulated/downregulated edges from Protein or Metabolite nodes to Cohort nodes.\n\nDEG (Differentially Expressed Gene)\n\nA gene whose mRNA expression differs significantly between two conditions. Method: DESeq2 with time as covariate. Stored as upregulated/downregulated edges from Gene nodes to Cohort nodes.\n\nDTE (Difficult-to-Express)\n\nProteins with complex folding, disulfide-bond, or glycosylation requirements that make them hard to produce at high levels in CHO cells. The KG returns DTE-related results via publication mining.\n\nFactor (MOFA Factor)\n\nA latent variable identified by MOFA that captures coordinated variation across omics layers. Factor 1 is the most strongly correlated with productivity phenotypes. Stored as a Factor node; features linked via gene_contributes_to_factor, protein_contributes_to_factor, metabolite_contributes_to_factor edges.\n\nGS (Gene Significance)\n\nIn WGCNA, the Pearson correlation between a gene’s expression and a productivity trait. Stored as gs_qp, gs_ivcd, gs_titre on gene_part_of edges. Corresponding p-values: gs_qp_pval, gs_ivcd_pval, gs_titre_pval.\n\nGSEA (Gene Set Enrichment Analysis)\n\nEnrichment method using a ranked gene list to detect coordinated pathway shifts. Reports Normalised Enrichment Score (NES). Positive NES = enriched in upregulated genes. Stored on kegg_pathway_enriched_in and go_term_enriched_in edges with analysis_type = 'GSEA'.\n\nHub Gene\n\nA gene with high intramodular connectivity in a WGCNA module — it is the most representative of the module’s biological program. Flagged by is_hub = true on gene_part_of edges.\n\nkME (Module Eigengene Connectivity)\n\nIn WGCNA, the Pearson correlation between a gene’s expression and its module eigengene. Range 0–1; closer to 1 = stronger hub. Stored as network_membership on gene_part_of edges.\n\nKO (Knockout)\n\nComplete elimination of a gene’s function, typically via CRISPR-Cas9. Contrast with KD (knockdown, partial reduction) and OE (overexpression, increased expression).\n\nlog2FC (Log₂ Fold-Change)\n\nThe log₂ ratio of expression/abundance in cohort A vs. cohort B. Stored as abs_log2fc (absolute value) on DEG/DAA edges. Positive values indicate higher expression in cohort A (high producers in productivity-based cohorts).\n\nME (Module Eigengene)\n\nThe first principal component of all features within a WGCNA module. Represents the overall activity pattern of the module. Used to correlate module activity with productivity traits.\n\nMOFA (Multi-Omics Factor Analysis)\n\nUnsupervised dimensionality-reduction framework integrating multiple omics layers into shared latent factors. Run with K=10 factors across transcriptomics, proteomics, and metabolomics.\n\nmofa_weight\n\nMOFA loading weight for a feature on a given factor. Direction: positive = co-varies positively with the factor; negative = inversely. Magnitude indicates relative importance. Stored on gene_contributes_to_factor and equivalent edges.\n\nNES (Normalised Enrichment Score)\n\nThe GSEA enrichment score normalised for gene set size. Positive = enriched in upregulated genes; negative = enriched in downregulated genes. Stored as enrichment_score on enrichment edges.\n\nNLQ (Natural Language Query)\n\nA plain-English question typed into the KG interface (Polly Co-Scientist), automatically converted to a Cypher graph query.\n\nORA (Over-Representation Analysis)\n\nEnrichment method testing whether a binary gene list contains more pathway members than expected by chance. Stored with analysis_type = ORA_upregulated, ORA_downregulated, or ORA_Negative.\n\nSpearman Correlation\n\nNon-parametric rank correlation used to measure association between a molecular feature’s abundance and a productivity phenotype. Stored as correlation_factor on positive/negative edges from internal BMS analysis.\n\nTF (Transcription Factor)\n\nA protein that binds DNA to activate or repress gene expression. TF enrichment in the KG uses ChEA 2022 (ChIP-seq-based) data. Results stored on tf_regulates_cohort_degs and tf_regulates_network_genes edges.\n\nTPM (Transcripts Per Million)\n\nRNA-seq normalisation unit accounting for sequencing depth and transcript length. Stored as abs_log2_tpm on gene_expressed_in edges.\n\nUPR (Unfolded Protein Response)\n\nA cellular stress response activated when misfolded proteins accumulate in the ER. Associated with pro-productivity gene expression programs in high CHO producers (enriched in WGCNA network_2_gene).\n\nWGCNA (Weighted Gene Co-expression Network Analysis)\n\nNetwork-based method grouping co-expressed genes, proteins, or metabolites into modules correlated with biological traits. The BMS KG contains 20 gene, 5 protein, and 5 metabolite networks.",
+    "title": "9  Glossary",
+    "section": "9.2 Bioinformatics & Analysis Terms",
+    "text": "9.2 Bioinformatics & Analysis Terms\n\nadj_pvalue (Adjusted P-value)\n\nP-value corrected for multiple testing using the Benjamini-Hochberg (BH) method. Values below 0.05 are considered statistically significant. Stored on DEG edges (upregulated, downregulated), enrichment edges, and TF edges.\n\nDAA (Differential Abundance Analysis)\n\nStatistical analysis identifying proteins or metabolites that differ significantly in abundance between two conditions. Method: T-test with time as covariate. Stored as upregulated/downregulated edges from Protein or Metabolite nodes to Cohort nodes.\n\nDEG (Differentially Expressed Gene)\n\nA gene whose mRNA expression differs significantly between two conditions. Method: DESeq2 with time as covariate. Stored as upregulated/downregulated edges from Gene nodes to Cohort nodes.\n\nDTE (Difficult-to-Express)\n\nProteins with complex folding, disulfide-bond, or glycosylation requirements that make them hard to produce at high levels in CHO cells. The KG returns DTE-related results via publication mining.\n\nFactor (MOFA Factor)\n\nA latent variable identified by MOFA that captures coordinated variation across omics layers. Factor 1 is the most strongly correlated with productivity phenotypes. Stored as a Factor node; features linked via gene_contributes_to_factor, protein_contributes_to_factor, metabolite_contributes_to_factor edges.\n\nGS (Gene Significance)\n\nIn WGCNA, the Pearson correlation between a gene’s expression and a productivity trait. Stored as gs_qp, gs_ivcd, gs_titre on gene_part_of edges. Corresponding p-values: gs_qp_pval, gs_ivcd_pval, gs_titre_pval.\n\nGSEA (Gene Set Enrichment Analysis)\n\nEnrichment method using a ranked gene list to detect coordinated pathway shifts. Reports Normalised Enrichment Score (NES). Positive NES = enriched in upregulated genes. Stored on kegg_pathway_enriched_in and go_term_enriched_in edges with analysis_type = 'GSEA'.\n\nHub Gene\n\nA gene with high intramodular connectivity in a WGCNA module — it is the most representative of the module’s biological program. Flagged by is_hub = true on gene_part_of edges.\n\nkME (Module Eigengene Connectivity)\n\nIn WGCNA, the Pearson correlation between a gene’s expression and its module eigengene. Range 0–1; closer to 1 = stronger hub. Stored as network_membership on gene_part_of edges.\n\nKO (Knockout)\n\nComplete elimination of a gene’s function, typically via CRISPR-Cas9. Contrast with KD (knockdown, partial reduction) and OE (overexpression, increased expression).\n\nlog2FC (Log₂ Fold-Change)\n\nThe log₂ ratio of expression/abundance in cohort A vs. cohort B. Stored as abs_log2fc (absolute value) on DEG/DAA edges. Positive values indicate higher expression in cohort A (high producers in productivity-based cohorts).\n\nME (Module Eigengene)\n\nThe first principal component of all features within a WGCNA module. Represents the overall activity pattern of the module. Used to correlate module activity with productivity traits.\n\nMOFA (Multi-Omics Factor Analysis)\n\nUnsupervised dimensionality-reduction framework integrating multiple omics layers into shared latent factors. Run with K=10 factors across transcriptomics, proteomics, and metabolomics.\n\nmofa_weight\n\nMOFA loading weight for a feature on a given factor. Direction: positive = co-varies positively with the factor; negative = inversely. Magnitude indicates relative importance. Stored on gene_contributes_to_factor and equivalent edges.\n\nNES (Normalised Enrichment Score)\n\nThe GSEA enrichment score normalised for gene set size. Positive = enriched in upregulated genes; negative = enriched in downregulated genes. Stored as enrichment_score on enrichment edges.\n\nNLQ (Natural Language Query)\n\nA plain-English question typed into the KG interface (Polly Co-Scientist), automatically converted to a Cypher graph query.\n\nORA (Over-Representation Analysis)\n\nEnrichment method testing whether a binary gene list contains more pathway members than expected by chance. Stored with analysis_type = ORA_upregulated, ORA_downregulated, or ORA_Negative.\n\nSpearman Correlation\n\nNon-parametric rank correlation used to measure association between a molecular feature’s abundance and a productivity phenotype. Stored as correlation_factor on positive/negative edges from internal BMS analysis.\n\nTF (Transcription Factor)\n\nA protein that binds DNA to activate or repress gene expression. TF enrichment in the KG uses ChEA 2022 (ChIP-seq-based) data. Results stored on tf_regulates_cohort_degs and tf_regulates_network_genes edges.\n\nTPM (Transcripts Per Million)\n\nRNA-seq normalisation unit accounting for sequencing depth and transcript length. Stored as abs_log2_tpm on gene_expressed_in edges.\n\nUPR (Unfolded Protein Response)\n\nA cellular stress response activated when misfolded proteins accumulate in the ER. Associated with pro-productivity gene expression programs in high CHO producers (enriched in WGCNA network_2_gene).\n\nWGCNA (Weighted Gene Co-expression Network Analysis)\n\nNetwork-based method grouping co-expressed genes, proteins, or metabolites into modules correlated with biological traits. The BMS KG contains 20 gene, 5 protein, and 5 metabolite networks.",
     "crumbs": [
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Glossary</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Glossary</span>"
     ]
   },
   {
     "objectID": "chapters/glossary.html#bioprocess-parameter-terms",
     "href": "chapters/glossary.html#bioprocess-parameter-terms",
-    "title": "10  Glossary",
-    "section": "10.3 Bioprocess Parameter Terms",
-    "text": "10.3 Bioprocess Parameter Terms\n\nAmmonia (mM)\n\nMetabolic by-product that accumulates in culture and inhibits cell growth at high concentrations. Stored as a Parameter node; measured per sample on measured_in edges.\n\nGlucose (g/L)\n\nPrimary carbon and energy source for CHO cells. Consumption rate reflects metabolic activity. Stored as a Parameter node.\n\nLactate (mM)\n\nMetabolic by-product of glycolysis. Accumulation is associated with low productivity and metabolic inefficiency. A key bioprocess parameter tracked across all Study 1 samples.\n\nO₂ (Dissolved Oxygen)\n\nDissolved oxygen concentration in the bioreactor. Critical for aerobic metabolism and productivity. Measured per sample in Study 1.\n\nVCD (Viable Cell Density)\n\nNumber of living cells per mL of culture. Used alongside qP to calculate volumetric productivity. Stored as a Parameter node.",
+    "title": "9  Glossary",
+    "section": "9.3 Bioprocess Parameter Terms",
+    "text": "9.3 Bioprocess Parameter Terms\n\nAmmonia (mM)\n\nMetabolic by-product that accumulates in culture and inhibits cell growth at high concentrations. Stored as a Parameter node; measured per sample on measured_in edges.\n\nGlucose (g/L)\n\nPrimary carbon and energy source for CHO cells. Consumption rate reflects metabolic activity. Stored as a Parameter node.\n\nLactate (mM)\n\nMetabolic by-product of glycolysis. Accumulation is associated with low productivity and metabolic inefficiency. A key bioprocess parameter tracked across all Study 1 samples.\n\nO₂ (Dissolved Oxygen)\n\nDissolved oxygen concentration in the bioreactor. Critical for aerobic metabolism and productivity. Measured per sample in Study 1.\n\nVCD (Viable Cell Density)\n\nNumber of living cells per mL of culture. Used alongside qP to calculate volumetric productivity. Stored as a Parameter node.",
     "crumbs": [
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Glossary</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Glossary</span>"
     ]
   },
   {
     "objectID": "chapters/glossary.html#external-database-terms",
     "href": "chapters/glossary.html#external-database-terms",
-    "title": "10  Glossary",
-    "section": "10.4 External Database Terms",
-    "text": "10.4 External Database Terms\n\nChEBI\n\nChemical Entities of Biological Interest. Database providing IDs and annotations for small molecules. ChEBI IDs are the primary identifiers for Metabolite nodes in the KG.\n\nChEA 2022\n\nChIP Enrichment Analysis 2022. Curated database of TF–target relationships derived from ChIP-seq experiments across multiple organisms. Used for TF enrichment in this KG.\n\nGO (Gene Ontology)\n\nStandardised vocabulary of biological terms. Sub-ontologies: Biological Process (BP), Molecular Function (MF), Cellular Component (CC). GO annotations in the KG are propagated via mouse orthologs.\n\nHMDB\n\nHuman Metabolome Database. Provides metabolite annotations and cross-references. Stored on Metabolite nodes as hmdb field.\n\nKEGG\n\nKyoto Encyclopedia of Genes and Genomes. Provides pathway maps, enzyme classifications, reaction definitions, and compound information. CHO-specific pathways use organism code cge.\n\nKEGG Ortholog (KO)\n\nA functional ortholog group in KEGG identified by a K-number (e.g., K00001). CHO genes are mapped to KOs via assigned_to edges, which bridge to pathways, modules, enzymes, and reactions.\n\nNCBI Gene\n\nNational Center for Biotechnology Information Gene database. NCBI Entrez Gene IDs are the primary identifiers for Gene nodes in the KG.\n\nNCIT\n\nNCI Thesaurus. Used to standardise bioprocess parameter names (e.g., NCIT:C74799 for a measurement parameter). Stored on Parameter nodes.\n\nUniProt\n\nUniversal Protein Resource. UniProt accessions are stored on Protein nodes as uniprot_id for cross-database linking.",
+    "title": "9  Glossary",
+    "section": "9.4 External Database Terms",
+    "text": "9.4 External Database Terms\n\nChEBI\n\nChemical Entities of Biological Interest. Database providing IDs and annotations for small molecules. ChEBI IDs are the primary identifiers for Metabolite nodes in the KG.\n\nChEA 2022\n\nChIP Enrichment Analysis 2022. Curated database of TF–target relationships derived from ChIP-seq experiments across multiple organisms. Used for TF enrichment in this KG.\n\nGO (Gene Ontology)\n\nStandardised vocabulary of biological terms. Sub-ontologies: Biological Process (BP), Molecular Function (MF), Cellular Component (CC). GO annotations in the KG are propagated via mouse orthologs.\n\nHMDB\n\nHuman Metabolome Database. Provides metabolite annotations and cross-references. Stored on Metabolite nodes as hmdb field.\n\nKEGG\n\nKyoto Encyclopedia of Genes and Genomes. Provides pathway maps, enzyme classifications, reaction definitions, and compound information. CHO-specific pathways use organism code cge.\n\nKEGG Ortholog (KO)\n\nA functional ortholog group in KEGG identified by a K-number (e.g., K00001). CHO genes are mapped to KOs via assigned_to edges, which bridge to pathways, modules, enzymes, and reactions.\n\nNCBI Gene\n\nNational Center for Biotechnology Information Gene database. NCBI Entrez Gene IDs are the primary identifiers for Gene nodes in the KG.\n\nNCIT\n\nNCI Thesaurus. Used to standardise bioprocess parameter names (e.g., NCIT:C74799 for a measurement parameter). Stored on Parameter nodes.\n\nUniProt\n\nUniversal Protein Resource. UniProt accessions are stored on Protein nodes as uniprot_id for cross-database linking.",
     "crumbs": [
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Glossary</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Glossary</span>"
     ]
   }
 ]

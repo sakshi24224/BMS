@@ -28,5 +28,8 @@
   },
   "chapters/glossary.qmd": {
     "glossary.html": "005ceae5"
+  },
+  "chapters/06-utilities.qmd": {
+    "06-utilities.html": "7710143e"
   }
 }

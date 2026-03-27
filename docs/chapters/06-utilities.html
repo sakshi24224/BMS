@@ -8,7 +8,7 @@
 
 <meta name="description" content="A comprehensive guide to querying, interpreting, and deriving actionable insights from the BMS CHO Cell Productivity Knowledge Graph.">
 
-<title>9&nbsp; KG Utilities &amp; Navigation – BMS CHO Cell Productivity Knowledge Graph</title>
+<title>8&nbsp; KG Utilities &amp; Navigation – BMS CHO Cell Productivity Knowledge Graph</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -35,7 +35,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../chapters/glossary.html" rel="next">
-<link href="../chapters/06-target-prioritization.html" rel="prev">
+<link href="../chapters/05-hypothesis-testing.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -270,7 +270,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/07-utilities.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">KG Utilities &amp; Navigation</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/06-utilities.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">KG Utilities &amp; Navigation</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -334,20 +334,14 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/06-target-prioritization.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Target Prioritisation</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/07-utilities.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">KG Utilities &amp; Navigation</span></span></a>
+  <a href="../chapters/06-utilities.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">KG Utilities &amp; Navigation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/glossary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
   </div>
 </li>
     </ul>
@@ -360,23 +354,23 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#sec-utilities" id="toc-sec-utilities" class="nav-link active" data-scroll-target="#sec-utilities"><span class="header-section-number">9.1</span> Overview</a></li>
-  <li><a href="#searching-by-identifier" id="toc-searching-by-identifier" class="nav-link" data-scroll-target="#searching-by-identifier"><span class="header-section-number">9.2</span> Searching by Identifier</a></li>
-  <li><a href="#cross-referencing-identifiers" id="toc-cross-referencing-identifiers" class="nav-link" data-scroll-target="#cross-referencing-identifiers"><span class="header-section-number">9.3</span> Cross-Referencing Identifiers</a></li>
-  <li><a href="#finding-orthologs" id="toc-finding-orthologs" class="nav-link" data-scroll-target="#finding-orthologs"><span class="header-section-number">9.4</span> Finding Orthologs</a></li>
-  <li><a href="#filtering-results" id="toc-filtering-results" class="nav-link" data-scroll-target="#filtering-results"><span class="header-section-number">9.5</span> Filtering Results</a>
+  <li><a href="#sec-utilities" id="toc-sec-utilities" class="nav-link active" data-scroll-target="#sec-utilities"><span class="header-section-number">8.1</span> Overview</a></li>
+  <li><a href="#searching-by-identifier" id="toc-searching-by-identifier" class="nav-link" data-scroll-target="#searching-by-identifier"><span class="header-section-number">8.2</span> Searching by Identifier</a></li>
+  <li><a href="#cross-referencing-identifiers" id="toc-cross-referencing-identifiers" class="nav-link" data-scroll-target="#cross-referencing-identifiers"><span class="header-section-number">8.3</span> Cross-Referencing Identifiers</a></li>
+  <li><a href="#finding-orthologs" id="toc-finding-orthologs" class="nav-link" data-scroll-target="#finding-orthologs"><span class="header-section-number">8.4</span> Finding Orthologs</a></li>
+  <li><a href="#filtering-results" id="toc-filtering-results" class="nav-link" data-scroll-target="#filtering-results"><span class="header-section-number">8.5</span> Filtering Results</a>
   <ul class="collapse">
   <li><a href="#by-study-source" id="toc-by-study-source" class="nav-link" data-scroll-target="#by-study-source">By Study Source</a></li>
   <li><a href="#by-molecule" id="toc-by-molecule" class="nav-link" data-scroll-target="#by-molecule">By Molecule</a></li>
   <li><a href="#statistical-thresholds" id="toc-statistical-thresholds" class="nav-link" data-scroll-target="#statistical-thresholds">Statistical Thresholds</a></li>
   </ul></li>
-  <li><a href="#plotting-routines" id="toc-plotting-routines" class="nav-link" data-scroll-target="#plotting-routines"><span class="header-section-number">9.6</span> Plotting Routines</a></li>
-  <li><a href="#exporting-query-results" id="toc-exporting-query-results" class="nav-link" data-scroll-target="#exporting-query-results"><span class="header-section-number">9.7</span> Exporting Query Results</a>
+  <li><a href="#plotting-routines" id="toc-plotting-routines" class="nav-link" data-scroll-target="#plotting-routines"><span class="header-section-number">8.6</span> Plotting Routines</a></li>
+  <li><a href="#exporting-query-results" id="toc-exporting-query-results" class="nav-link" data-scroll-target="#exporting-query-results"><span class="header-section-number">8.7</span> Exporting Query Results</a>
   <ul class="collapse">
   <li><a href="#exporting-tables" id="toc-exporting-tables" class="nav-link" data-scroll-target="#exporting-tables">Exporting Tables</a></li>
   <li><a href="#exporting-plots" id="toc-exporting-plots" class="nav-link" data-scroll-target="#exporting-plots">Exporting Plots</a></li>
   </ul></li>
-  <li><a href="#tips-for-effective-queries" id="toc-tips-for-effective-queries" class="nav-link" data-scroll-target="#tips-for-effective-queries"><span class="header-section-number">9.8</span> Tips for Effective Queries</a></li>
+  <li><a href="#tips-for-effective-queries" id="toc-tips-for-effective-queries" class="nav-link" data-scroll-target="#tips-for-effective-queries"><span class="header-section-number">8.8</span> Tips for Effective Queries</a></li>
   </ul>
 </nav>
     </div>
@@ -386,7 +380,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">KG Utilities &amp; Navigation</span></h1>
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">KG Utilities &amp; Navigation</span></h1>
 <p class="subtitle lead">Searching, cross-referencing identifiers, filtering, exporting results, and generating plots</p>
 </div>
 
@@ -404,13 +398,13 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="sec-utilities" class="level2" data-number="9.1">
-<h2 data-number="9.1" class="anchored" data-anchor-id="sec-utilities"><span class="header-section-number">9.1</span> Overview</h2>
+<section id="sec-utilities" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="sec-utilities"><span class="header-section-number">8.1</span> Overview</h2>
 <p>This chapter covers the practical mechanics of navigating the KG: searching by identifier, cross-referencing databases, filtering results, exporting data, and generating visualisations.</p>
 <hr>
 </section>
-<section id="searching-by-identifier" class="level2" data-number="9.2">
-<h2 data-number="9.2" class="anchored" data-anchor-id="searching-by-identifier"><span class="header-section-number">9.2</span> Searching by Identifier</h2>
+<section id="searching-by-identifier" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="searching-by-identifier"><span class="header-section-number">8.2</span> Searching by Identifier</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -453,8 +447,8 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <hr>
 </section>
-<section id="cross-referencing-identifiers" class="level2" data-number="9.3">
-<h2 data-number="9.3" class="anchored" data-anchor-id="cross-referencing-identifiers"><span class="header-section-number">9.3</span> Cross-Referencing Identifiers</h2>
+<section id="cross-referencing-identifiers" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="cross-referencing-identifiers"><span class="header-section-number">8.3</span> Cross-Referencing Identifiers</h2>
 <div class="query-box">
 <p>What is the UniProt accession for the protein encoded by HSPA5?</p>
 </div>
@@ -466,8 +460,8 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <hr>
 </section>
-<section id="finding-orthologs" class="level2" data-number="9.4">
-<h2 data-number="9.4" class="anchored" data-anchor-id="finding-orthologs"><span class="header-section-number">9.4</span> Finding Orthologs</h2>
+<section id="finding-orthologs" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="finding-orthologs"><span class="header-section-number">8.4</span> Finding Orthologs</h2>
 <p>CHO genes are mapped to human, mouse, and rat orthologs via the <code>human_id</code>, <code>mouse_id</code>, and <code>rat_id</code> fields on Gene nodes. KEGG Ortholog (<code>assigned_to</code>) edges provide functional ortholog groupings.</p>
 <div class="query-box">
 <p>Find the human ortholog of CHO gene LOC100760815. What is its NCBI Gene ID?</p>
@@ -477,8 +471,8 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <hr>
 </section>
-<section id="filtering-results" class="level2" data-number="9.5">
-<h2 data-number="9.5" class="anchored" data-anchor-id="filtering-results"><span class="header-section-number">9.5</span> Filtering Results</h2>
+<section id="filtering-results" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="filtering-results"><span class="header-section-number">8.5</span> Filtering Results</h2>
 <section id="by-study-source" class="level3">
 <h3 class="anchored" data-anchor-id="by-study-source">By Study Source</h3>
 <div class="query-box">
@@ -548,8 +542,8 @@ ul.task-list li input[type="checkbox"] {
 <hr>
 </section>
 </section>
-<section id="plotting-routines" class="level2" data-number="9.6">
-<h2 data-number="9.6" class="anchored" data-anchor-id="plotting-routines"><span class="header-section-number">9.6</span> Plotting Routines</h2>
+<section id="plotting-routines" class="level2" data-number="8.6">
+<h2 data-number="8.6" class="anchored" data-anchor-id="plotting-routines"><span class="header-section-number">8.6</span> Plotting Routines</h2>
 <p>The KG can generate a variety of visualisations directly from query results. Ask Co-Scientist to produce plots alongside tabular output.</p>
 <div class="query-box">
 <p>What kinds of plots can you generate for KG query results?</p>
@@ -650,8 +644,8 @@ Note
 </div>
 <hr>
 </section>
-<section id="exporting-query-results" class="level2" data-number="9.7">
-<h2 data-number="9.7" class="anchored" data-anchor-id="exporting-query-results"><span class="header-section-number">9.7</span> Exporting Query Results</h2>
+<section id="exporting-query-results" class="level2" data-number="8.7">
+<h2 data-number="8.7" class="anchored" data-anchor-id="exporting-query-results"><span class="header-section-number">8.7</span> Exporting Query Results</h2>
 <p>Results can be exported from the session toolbar after any query returns a table or plot.</p>
 <section id="exporting-tables" class="level3">
 <h3 class="anchored" data-anchor-id="exporting-tables">Exporting Tables</h3>
@@ -670,8 +664,8 @@ Note
 <hr>
 </section>
 </section>
-<section id="tips-for-effective-queries" class="level2" data-number="9.8">
-<h2 data-number="9.8" class="anchored" data-anchor-id="tips-for-effective-queries"><span class="header-section-number">9.8</span> Tips for Effective Queries</h2>
+<section id="tips-for-effective-queries" class="level2" data-number="8.8">
+<h2 data-number="8.8" class="anchored" data-anchor-id="tips-for-effective-queries"><span class="header-section-number">8.8</span> Tips for Effective Queries</h2>
 <ul>
 <li><strong>Be specific about entity type</strong> — say “gene”, “protein”, or “metabolite” explicitly</li>
 <li><strong>Name the cohort</strong> — include molecule, clone, and study when relevant</li>
@@ -1120,13 +1114,13 @@ Tip
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/06-target-prioritization.html" class="pagination-link" aria-label="Target Prioritisation">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Target Prioritisation</span></span>
+      <a href="../chapters/05-hypothesis-testing.html" class="pagination-link" aria-label="Hypothesis Testing">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../chapters/glossary.html" class="pagination-link" aria-label="Glossary">
-        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Glossary</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Glossary</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
