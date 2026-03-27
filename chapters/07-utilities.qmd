@@ -81,9 +81,9 @@ Filter WGCNA network enrichment results to Nivo samples only (sample_source = 'N
 Show MOFA Factor 1 weights for genes, using only C144 Study 1 samples (sample_source = 'C144_study1').
 :::
 
-### Recommended Statistical Thresholds
+### Statistical Thresholds
 
-| Threshold | Recommended value | Edge property |
+| Threshold | value | Edge property |
 |---|---|---|
 | DEG adjusted p-value | < 0.05 | `adj_pvalue` |
 | DEG absolute log₂FC | > 1 | `abs_log2fc` |
