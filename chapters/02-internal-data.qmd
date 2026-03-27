@@ -366,23 +366,3 @@ Which TFs have the broadest target gene scope across all pro-productivity cohort
 | `tf_term_original` | Same edge | Full ChEA term (e.g., `E2F4 20460467 ChIP-Seq MCF7 Human`) — shows source organism and assay |
 | `tf_database` | Same edge | Always `ChEA_2022` in this KG |
 
-**Key master regulators identified in Study 1:**
-
-| TF | Module association | padj | Biological role |
-|---|---|---|---|
-| **E2F4** | Anti-productivity (network_18_gene) | 3.7×10⁻¹²² | Cell cycle / DNA replication master regulator |
-| FOXM1 | Anti-productivity | Significant | Mitotic transcription factor |
-| E2F1 | Anti-productivity | Significant | Cell cycle entry |
-| MYC | Anti-productivity | Significant | Broad proliferation driver |
-| NFE2L2 (NRF2) | Pro-productivity (network_2_gene) | Significant | Oxidative stress / UPR response |
-| FOXO1 | Pro-productivity | Significant | Metabolism and stress resistance |
-| PPARA | Pro-productivity | Significant | Lipid metabolism and ER function |
-| SMARCA4 | Pro-productivity | Significant | Chromatin remodelling |
-
-::: {.query-box}
-Is NFE2L2 itself differentially expressed in Nivo high vs. low producers in Study 1?
-:::
-
-::: {.query-box}
-Does E2F4 have a significant MOFA Factor 1 weight?
-:::
